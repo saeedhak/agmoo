@@ -1,0 +1,7 @@
+{
+  "name": "agmoo",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
