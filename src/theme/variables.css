@@ -235,3 +235,49 @@ http://ionicframework.com/docs/theming/ */
     --ion-card-background: #1e1e1e;
   }
 }
+
+/* custom css Start */
+.container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+.container p {
+  font-size: 16px;
+  line-height: 22px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+.container a {
+  text-decoration: none;
+} 
+  .my__PT{
+    padding-top: 1rem;
+  }
+  .my__PB_3{
+    padding-bottom: 3rem;
+  }
+  .my__textLeft{
+    text-align: left !important;
+  }
+  .my__headTitle{
+    font-size: 1rem !important;
+    font-weight: bolder !important;
+  }
+  .my__headSubTitle{
+    font-size: .7rem !important;
+    font-weight: 400 !important;
+    line-height: 15px !important;
+  }
+  .my__BG{
+    background-color: #FF653B !important;
+    color: white !important;
+  }
+  .my__Border{
+    border-color: #FF653B !important;
+  }
+  .my__COLOR{
+    color: #FF653B !important;
+  }
+/* custom css End */

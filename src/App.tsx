@@ -39,7 +39,7 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonTabs>
+      <IonTabs className='bg-light'>
         <IonRouterOutlet>
           <Route exact path="/home">
             <Home />
