@@ -256,7 +256,7 @@ http://ionicframework.com/docs/theming/ */
     padding-top: 1rem;
   }
   .my__PB_3{
-    padding-bottom: 3rem;
+    padding-bottom: 3.8rem;
   }
   .my__textLeft{
     text-align: left !important;
@@ -279,5 +279,8 @@ http://ionicframework.com/docs/theming/ */
   }
   .my__COLOR{
     color: #FF653B !important;
+  }
+  .my__BOX_RADIUS{
+    border-radius: 15px;
   }
 /* custom css End */
