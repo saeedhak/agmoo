@@ -18,7 +18,7 @@ const Tab1: React.FC = () => {
                 </div>
                 <div className="col-6">
                   <p className="card-title m-0 text-dark" style={{ fontSize: "0.8rem", fontWeight: "bolder",lineHeight: "20px" }}>sign up or log in</p>
-                  <p className="card-text m-0" style={{ fontSize: "0.6rem", fontWeight: "500",lineHeight: "12px" }}>For better result for our new & Latest brand's product</p>
+                  <p className="card-text m-0" style={{ fontSize: "0.6rem", fontWeight: "500",lineHeight: "12px" }}>See for better result for our new & featured brand's product</p>
                 </div>
                 <div className="col-4 pe-1 mt-1">
                     <div className="pt-3 pb-3  w-100 badge my__BG text-wrap rounded-pill text-center">
