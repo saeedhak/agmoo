@@ -10,8 +10,7 @@ const HomeListing: React.FC = () => {
         <IonPage>
             <Header />
             <IonContent fullscreen>
-                <div className="
-                ">
+                <div className="container bg-light pt-4 my__PB_3 h-100">
                     <div className="row">
                         <div className="col-4 text-center">
                         <img className="border border-3 my__Border shadow p-1" src="../../assets/img/brand5.png" alt="Brand" style={{width: "100px",height: "80px",borderRadius: "50%",objectFit:"contain"}} />
