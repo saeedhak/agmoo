@@ -2,6 +2,7 @@ import {
   IonContent,
   IonPage
 } from "@ionic/react";
+import { Link } from "react-router-dom";
 import Header from "../components/Header";
 const Tab1: React.FC = () => {
   return (
@@ -30,9 +31,10 @@ const Tab1: React.FC = () => {
           </div>
           <div className="row">
             <div className="col-6">
+            <Link to="/listing" style={{ textDecoration: "none" }}>
               <div className="card shadow my__BOX_RADIUS">
                 <div className="card-body pe-0">
-                  <h5 className="card-title my__textLeft my__headTitle mb-1 mt-0">Brands</h5>
+                  <h5 className="card-title my__textLeft my__headTitle mb-1 mt-0 text-dark">Brands</h5>
                   <p className="card-text my__headSubTitle mt-0">Kuch bhai, khai bhi, kabhi bhi</p>
                   <div className="row pt-4 g-0">
                     {/* <div className="col-2"></div> */}
@@ -42,6 +44,7 @@ const Tab1: React.FC = () => {
                   </div>
                 </div>
               </div>
+              </Link>
             </div>
             <div className="col-6 pl-0">
               <div className="row">

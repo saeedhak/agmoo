@@ -283,6 +283,9 @@ http://ionicframework.com/docs/theming/ */
   .my__BOX_RADIUS{
     border-radius: 15px;
   }
+  .my__BOX_RADIUS_10{
+    border-radius: 10px;
+  }
   .inner-scroll{
     background-color: #F1F2F3 !important;
   }
