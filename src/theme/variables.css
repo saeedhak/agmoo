@@ -283,4 +283,7 @@ http://ionicframework.com/docs/theming/ */
   .my__BOX_RADIUS{
     border-radius: 15px;
   }
+  .inner-scroll{
+    background-color: #F1F2F3 !important;
+  }
 /* custom css End */

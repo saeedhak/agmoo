@@ -8,7 +8,7 @@ const Tab1: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent fullscreen>
-        <div className="container bg-light pt-4 my__PB_3">
+        <div className="container bg-light pt-4 my__PB_3 h-100">
 
           <div className="card shadow rounded-pill mb-3">
             <div className="card-body p-1">
