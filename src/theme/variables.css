@@ -310,4 +310,16 @@ http://ionicframework.com/docs/theming/ */
     top: -6%;
     right: 5%
   }
+  .my__PRODUCT_SLIDER_BADGE{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #FF653B;
+    color: white;
+    font-size: 17px;
+    text-align: center;
+    top: -3%;
+    right: -4%;
+  }
 /* custom css End */
