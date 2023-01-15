@@ -3,13 +3,15 @@ import {
     IonPage
 } from "@ionic/react";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
 const HomeListing: React.FC = () => {
     return (
         <IonPage>
             <Header />
             <IonContent fullscreen>
-                <div className="container bg-light pt-4 my__PB_3 h-100">
+                <div className="
+                ">
                     <div className="row">
                         <div className="col-4 text-center">
                         <img className="border border-3 my__Border shadow p-1" src="../../assets/img/brand5.png" alt="Brand" style={{width: "100px",height: "80px",borderRadius: "50%",objectFit:"contain"}} />
@@ -29,6 +31,7 @@ const HomeListing: React.FC = () => {
                         <div className="col-12">
                             <div className="row g-3">
                                 <div className="col-6">
+                                <Link to="/product-listing" style={{ textDecoration: "none" }}>
                                     <div className="card ps-2 my__BOX_RADIUS_10">
                                         <div className="row g-0">
                                             <div className="col-8">
@@ -39,6 +42,7 @@ const HomeListing: React.FC = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    </Link>
                                 </div>
                                 <div className="col-6">
                                     <div className="card ps-2 my__BOX_RADIUS_10">

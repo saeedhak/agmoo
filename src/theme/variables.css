@@ -289,4 +289,25 @@ http://ionicframework.com/docs/theming/ */
   .inner-scroll{
     background-color: #F1F2F3 !important;
   }
+  .my__CAT_ACTIVE{
+    color:#FF653B;
+    /* text-decoration: underline; */
+    border-bottom: 2px solid #FF653B;
+  }
+  .my__SUB_CAT_ACTIVE{
+    background-color: #FF653B !important;
+    color: white !important;
+  }
+  .my__PRODUCT_BADGE{
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #FF653B;
+    color:white;
+    font-size: 17px;
+    text-align: center;
+    top: -6%;
+    right: 5%
+  }
 /* custom css End */
