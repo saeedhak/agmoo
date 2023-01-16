@@ -302,7 +302,7 @@ const ProductListing: React.FC = () => {
                             <span className="badge rounded-pill my__BG" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Small Wire</span>
                             <h6 className="mb-2 mt-4" style={{ fontSize: "0.8rem", fontWeight: "600" }}>Product Details</h6>
                             <h6 className="text-secondary mt-0" style={{ fontSize: "0.8rem", fontWeight: "400", lineHeight: "20px" }}>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </h6>
-                            <div className="container">
+                            <div className="container pb-5">
                                 <div className="row">
                                     <div className="col-12">
                                         <h6>Similar Items</h6>
@@ -437,7 +437,7 @@ const ProductListing: React.FC = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className="container pt-3">
+                            <div className="container pt-3 pb-2 fixed-bottom bg-white">
                                 <div className="row g-3">
                                     <div className="col-5 shadow badge rounded-pill pe-0 ps-0 pt-0 pb-0">
                                         <div className="row g-0">
