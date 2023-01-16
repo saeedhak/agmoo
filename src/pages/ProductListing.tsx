@@ -112,7 +112,7 @@ const ProductListing: React.FC = () => {
                 <div className="container bg-white pt-4 pb-2">
                     <div className="row">
                         <div className="col-12">
-                            <div className="row">
+                            <div className="row gy-4">
                                 <div className="col-4" style={{ position: "relative" }}>
                                     <div className="card rounded-5 my__BOX_RADIUS_10">
                                         <div className="card-body">
@@ -144,7 +144,7 @@ const ProductListing: React.FC = () => {
                                     <div className="card rounded-5 my__BOX_RADIUS_10">
                                         <div className="card-body">
                                             <img
-                                                src="../../assets/img/product2.png"
+                                                src="../../assets/img/product1.png"
                                                 alt="product_image"
                                             />
                                         </div>
@@ -165,90 +165,9 @@ const ProductListing: React.FC = () => {
                                     >
                                         C-type Cable long Wire
                                     </p>
-                                    <span className="my__PRODUCT_BADGE">+</span>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
                                 </div>
                                 <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product3.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE">+</span>
-                                </div>
-                                <div className="col-4 mt-3" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product3.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE">+</span>
-                                </div>
-                                <div className="col-4 mt-3" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product2.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE">+</span>
-                                </div>
-                                <div className="col-4 mt-3" style={{ position: "relative" }}>
                                     <div className="card rounded-5 my__BOX_RADIUS_10">
                                         <div className="card-body">
                                             <img
@@ -273,7 +192,250 @@ const ProductListing: React.FC = () => {
                                     >
                                         C-type Cable long Wire
                                     </p>
-                                    <span className="my__PRODUCT_BADGE">+</span>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
+                                </div>
+                                <div className="col-4" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src="../../assets/img/product1.png"
+                                                alt="product_image"
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        Rs. 1,695
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        C-type Cable long Wire
+                                    </p>
+                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
                                 </div>
                             </div>
                         </div>
