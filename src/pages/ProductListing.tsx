@@ -442,18 +442,18 @@ const ProductListing: React.FC = () => {
                                     <div className="col-5 shadow badge rounded-pill pe-0 ps-0 pt-0 pb-0">
                                         <div className="row g-0">
                                             <div className="col-4 ps-0">
-                                            <span className="badge rounded-pill shadow my__COLOR w-100" style={{fontSize:"1rem"}}>-</span>
+                                            <span className="badge my__ROUNDED_PILL_LEFT shadow my__COLOR w-100 pt-3 pb-3" style={{fontSize:"1rem"}}>-</span>
                                             </div>
                                             <div className="col-4">
-                                                <span className="badge rounded-5 my__BG w-100 pt-2 pb-2">1</span>
+                                                <span className="badge rounded-5 my__BG w-100 pt-3 pb-3" style={{fontSize:"1rem"}}>1</span>
                                             </div>
                                             <div className="col-4 pe-0">
-                                            <span className="badge rounded-pill shadow my__COLOR w-100" style={{fontSize:"1rem"}}>+</span>
+                                            <span className="badge my__ROUNDED_PILL_RIGHT shadow my__COLOR w-100 pt-3 pb-3" style={{fontSize:"1rem"}}>+</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="col-7">
-                                        <span className="badge rounded-pill my__BG w-100 shadow pt-2 pb-2" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Add To Cart</span>
+                                        <span className="badge rounded-pill my__BG w-100 shadow pt-3 pb-3" style={{ fontSize: "0.8rem", fontWeight: "500" }}>Add To Cart</span>
                                     </div>
                                 </div>
                             </div>

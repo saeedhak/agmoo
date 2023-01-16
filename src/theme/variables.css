@@ -322,4 +322,13 @@ http://ionicframework.com/docs/theming/ */
     top: -3%;
     right: -4%;
   }
+  .my__ROUNDED_PILL_RIGHT{
+    border-bottom-right-radius: 50rem !important;
+    border-top-right-radius: 50rem !important;
+  }
+  
+  .my__ROUNDED_PILL_LEFT{
+    border-bottom-left-radius: 50rem !important;
+    border-top-left-radius: 50rem !important;
+  }
 /* custom css End */
