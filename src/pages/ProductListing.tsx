@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Link , useParams } from "react-router-dom";
 import {
     IonContent,
     IonPage,
@@ -15,85 +16,158 @@ import {
 // Import Swiper styles
 import "swiper/css";
 const ProductListing: React.FC = () => {
+    // my const variable start
+    const paramsValue:any = useParams();
+    const baseImgUrl = "https://agmoo.com/";
+    const baseUrl = "https://agmoo.com/agmoo_api/";
+    const endPoint = `index.php?endPoint=`;
+    // my const variable end 
+    // use start variable start
     const [isOpen, setIsOpen] = useState(false);
+    const [productListingData, setProductListingData] = useState<any>();
+    const [moduleListingData, setModuleListingData] = useState<any>();
+    const [breadcrumb, setBreadcrumb] = useState<any>();
+    const [modalProduct, setModalProduct] = useState<any>();
+    const [activeId, setActiveId] = useState<any>();
+    // use start variable end
+
+    // useEffect start
+    useEffect(()=>{
+        setActiveId(paramsValue.id);
+        getModuleData(paramsValue.modelName);
+        getListingProductData(paramsValue.modelName, paramsValue.id );
+    },[]);
+    // useEffect End 
+    // my function start
+        // get params data behalf of params module start
+            const getModuleData = (moduleName:any)=>{
+                let THIS_END_POINT = "";
+                if(paramsValue.modelName === "brand"){
+                    THIS_END_POINT = `${baseUrl}${endPoint}${moduleName}`;
+                }else{
+                    THIS_END_POINT = `${baseUrl}${endPoint}${moduleName}&catWithSubCat=Yes`;
+                }
+                    fetch(THIS_END_POINT)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        if(paramsValue.modelName === "brand"){
+
+                            setBreadcrumb(data.sendData.filter( (e:any) => e.id === paramsValue.id ));
+                        }else{
+
+                            setBreadcrumb(data.sendData[0].category.filter( (e:any) => e.id === paramsValue.id ));
+                        }
+                        return setModuleListingData(data.sendData);
+                    })
+            }
+        // get params data behalf of params module end 
+        // get product listing data behalf of brand and categories start
+            const getListingProductData = (moduleName:any, moduleNameId:any )=>{
+                    setActiveId(moduleNameId);
+                    if(paramsValue.modelName === "brand"){
+
+                        moduleListingData && setBreadcrumb(moduleListingData.filter( (e:any) => e.id === moduleNameId ));
+                    }else{
+
+                        moduleListingData && setBreadcrumb(moduleListingData[0].category.filter( (e:any) => e.id === moduleNameId ));
+                    }
+                    fetch(`${baseUrl}${endPoint}${moduleName}&moduleId=${moduleNameId}`)
+                    .then((response) => {
+                        return response.json();
+                    })
+                    .then((data) => {
+                        return setProductListingData(data.sendData);
+                    })
+
+            }
+        // get product listing data behalf of brand and categories start
+        const getModalData = (endpointVal:any)=>{
+            fetch(baseUrl+endpointVal)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            return setModalProduct(data.sendData[0]);
+          })
+        };
+        // get modal data behalf of product id end 
+    // my function end 
+
+    // test area start
+    // console.log(productListingData);
+    // console.log(breadcrumb);
+    console.log(moduleListingData);
+    // test area end 
     return (
         <IonPage>
             <Header />
             <IonContent fullscreen>
                 <div className="container bg-white pt-3">
+                    {paramsValue.modelName === "brand"?
+                        <div className="row">
+                        <div className="col-12 ps-2">
+                            <Swiper
+                                spaceBetween={10}
+                                slidesPerView={4}
+                                className="my__headSubTitle"
+                            >
+                                {moduleListingData?.map((data:any, index:any) => {
+                    
+                            return(
+                                <SwiperSlide className={`w-auto fw-bold pb-1 ${data.id === activeId?'my__CAT_ACTIVE':''}`} key={index} onClick={()=>{getListingProductData("brand",data.id)}}>
+                                {data.brands_title}
+                            </SwiperSlide>     
+                            )
+                        })}
+                            </Swiper>
+                        </div>
+                    </div>
+                    :
+                    <>
                     <div className="row">
                         <div className="col-12 ps-2">
                             <Swiper
                                 spaceBetween={10}
                                 slidesPerView={4}
-                                //   onSlideChange={() => console.log('slide change')}
-                                //   onSwiper={(swiper) => console.log(swiper)}
                                 className="my__headSubTitle"
                             >
-                                <SwiperSlide className="w-auto my__CAT_ACTIVE fw-bold pb-1">
-                                    Data Cables
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">
-                                    Mobile Parts
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">
-                                    Laptop & Accessories
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">Pouch</SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">
-                                    HnadFree & Speaker{" "}
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">
-                                    Charger & Adopter
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">Mobile</SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold">Power Bank</SwiperSlide>
-                                <SwiperSlide className="w-auto fw-boldedr, ">
-                                    Usb & Card{" "}
-                                </SwiperSlide>
+                                {moduleListingData && moduleListingData[0].category?.map((data:any, index:any) => {
+                            return(
+                                <SwiperSlide className={`w-auto fw-bold pb-1 ${data.id === activeId?'my__CAT_ACTIVE':''}`} key={index} onClick={()=>{getListingProductData("category",data.id)}}>
+                                {data.cat_title}
+                            </SwiperSlide>     
+                            )
+                        })}
                             </Swiper>
                         </div>
                     </div>
-                    {/* sub cat  */}
+
                     <div className="row">
-                        <div className="col-12 ps-1 pt-2">
+                        <div className="col-12 ps-2">
                             <Swiper
                                 spaceBetween={10}
                                 slidesPerView={4}
-                                //   onSlideChange={() => console.log('slide change')}
-                                //   onSwiper={(swiper) => console.log(swiper)}
                                 className="my__headSubTitle pt-2 pb-2"
                             >
-                                <SwiperSlide className="w-auto shadow my__SUB_CAT_ACTIVE fw-bold ps-3 pe-3 pt-1 pb-1 rounded-pill">
-                                    Data Cables
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Mobile Parts
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Laptop & Accessories
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Pouch
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    HnadFree & Speaker{" "}
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Charger & Adopter
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Mobile
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Power Bank
-                                </SwiperSlide>
-                                <SwiperSlide className="w-auto fw-bold pt-1 pb-1">
-                                    Usb & Card{" "}
-                                </SwiperSlide>
+                                {moduleListingData && moduleListingData[0].subCategory?.map((data:any, index:any) => {
+                                    if(data.cat_id === activeId){
+                                        
+                                        return(
+                                            <SwiperSlide className={`w-auto shadow fw-bold ps-3 pe-3 pt-1 pb-1 rounded-pill ${index === 1?'my__SUB_CAT_ACTIVE':''}`} key={index} onClick={()=>{}}>
+                                                {/* getListingProductData("category",data.id) */}
+                                            {data.subcat_title}
+                                        </SwiperSlide>     
+                                        )
+                                    }else{return("")}
+                        })}
                             </Swiper>
                         </div>
                     </div>
+                    </>
+                    }
+                    {/* sub cat  */}
                 </div>
                 {/* now breadcrumb start */}
                 <div className="container bg-light">
@@ -103,7 +177,8 @@ const ProductListing: React.FC = () => {
                                 className="text-dark"
                                 style={{ fontSize: "0.9rem", fontWeight: "400" }}
                             >
-                                Data Cables
+                                {breadcrumb && breadcrumb[0] && paramsValue.modelName === "brand" && breadcrumb[0].brands_title}
+                                {breadcrumb && breadcrumb[0] && paramsValue.modelName === "category" && breadcrumb[0].cat_title}
                             </h6>
                         </div>
                     </div>
@@ -113,339 +188,48 @@ const ProductListing: React.FC = () => {
                     <div className="row">
                         <div className="col-12">
                             <div className="row gy-4">
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
+                                {productListingData?.map((data:any, index:any)=>{
+                                    return(
+                                        
+                                <div className="col-4" style={{ position: "relative" }} key={index}>
+                                <div className="card rounded-5 my__BOX_RADIUS_10">
+                                    <div className="card-body">
+                                        <img
+                                            src={`${baseImgUrl}${data.large_img}`}
+                                            alt={data.pro_title}
+                                        />
                                     </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
                                 </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
-                                <div className="col-4" style={{ position: "relative" }}>
-                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                        <div className="card-body">
-                                            <img
-                                                src="../../assets/img/product1.png"
-                                                alt="product_image"
-                                            />
-                                        </div>
-                                    </div>
-                                    <h6
-                                        className="my__COLOR mb-2 mt-2"
-                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                    >
-                                        Rs. 1,695
-                                    </h6>
-                                    <p
-                                        className="text-dark"
-                                        style={{
-                                            fontSize: "0.7rem",
-                                            fontWeight: "600",
-                                            lineHeight: "15px",
-                                        }}
-                                    >
-                                        C-type Cable long Wire
-                                    </p>
-                                    <span className="my__PRODUCT_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                </div>
+                                <h6
+                                    className="my__COLOR mb-2 mt-2"
+                                    style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                >
+                                    {`Rs. ${data.actual_price}`}
+                                </h6>
+                                <p
+                                    className="text-dark"
+                                    style={{
+                                        fontSize: "0.7rem",
+                                        fontWeight: "600",
+                                        lineHeight: "15px",
+                                    }}
+                                >
+                                    {data.pro_title}
+                                </p>
+                                <span className="my__PRODUCT_BADGE" onClick={() => {getModalData(`index.php?endPoint=product&prdId=${data.id}`); setIsOpen(true)}}>+</span>
+                            </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>
                 </div>
                 <>
+                    {modalProduct?
                     <IonModal isOpen={isOpen}>
                         <IonHeader>
                             <IonToolbar>
-                                <IonTitle>Data Cables</IonTitle>
+                                <IonTitle>{modalProduct.pro_title}</IonTitle>
                                 <IonButtons slot="end">
                                     <IonButton onClick={() => setIsOpen(false)}>X</IonButton>
                                 </IonButtons>
@@ -453,17 +237,17 @@ const ProductListing: React.FC = () => {
                         </IonHeader>
                         <IonContent className="ion-padding">
                             <div className="w-100 text-center">
-                                <img className="w-50" src="../../assets/img/product1.png" alt="img" />
+                                <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" />
                             </div>
-                            <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>C-type Cable long Wire</h6>
+                            <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{modalProduct.pro_title}</h6>
                             <h6 className="my__COLOR mb-2 mt-2" style={{ fontSize: "0.8rem", fontWeight: "500" }}>
-                                Rs. 1,695
+                                {`Rs. ${modalProduct.actual_price}`}
                             </h6>
                             <h6 className="mb-1" style={{ fontSize: "0.8rem", fontWeight: "600" }}>Pack Size</h6>
-                            <span className="badge rounded-pill my__BG me-2" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Long Wire</span>
-                            <span className="badge rounded-pill my__BG" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Small Wire</span>
+                            <span className="badge rounded-pill my__BG me-2" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Long Size</span>
+                            <span className="badge rounded-pill my__BG" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Small Size</span>
                             <h6 className="mb-2 mt-4" style={{ fontSize: "0.8rem", fontWeight: "600" }}>Product Details</h6>
-                            <h6 className="text-secondary mt-0" style={{ fontSize: "0.8rem", fontWeight: "400", lineHeight: "20px" }}>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. </h6>
+                            <h6 className="text-secondary mt-0" style={{ fontSize: "0.8rem", fontWeight: "400", lineHeight: "20px" }}>{modalProduct.pshort_des}</h6>
                             <div className="container pb-5">
                                 <div className="row">
                                     <div className="col-12">
@@ -478,122 +262,39 @@ const ProductListing: React.FC = () => {
                                             //   onSwiper={(swiper) => console.log(swiper)}
                                             className="my__headSubTitle pt-3 pb-2 pe-2"
                                         >
-                                            <SwiperSlide>
-                                                <div className="col-4 w-100" style={{ position: "relative" }}>
-                                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                                        <div className="card-body">
-                                                            <img
-                                                                src="../../assets/img/product1.png"
-                                                                alt="product_image"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <h6
-                                                        className="my__COLOR mb-2 mt-2"
-                                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                                    >
-                                                        Rs. 1,695
-                                                    </h6>
-                                                    <p
-                                                        className="text-dark"
-                                                        style={{
-                                                            fontSize: "0.7rem",
-                                                            fontWeight: "600",
-                                                            lineHeight: "15px",
-                                                        }}
-                                                    >
-                                                        C-type Cable long Wire
-                                                    </p>
-                                                    <span className="my__PRODUCT_SLIDER_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                                </div>
-                                            </SwiperSlide>
-                                            <SwiperSlide>
-                                                <div className="col-4 w-100" style={{ position: "relative" }}>
-                                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                                        <div className="card-body">
-                                                            <img
-                                                                src="../../assets/img/product1.png"
-                                                                alt="product_image"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <h6
-                                                        className="my__COLOR mb-2 mt-2"
-                                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                                    >
-                                                        Rs. 1,695
-                                                    </h6>
-                                                    <p
-                                                        className="text-dark"
-                                                        style={{
-                                                            fontSize: "0.7rem",
-                                                            fontWeight: "600",
-                                                            lineHeight: "15px",
-                                                        }}
-                                                    >
-                                                        C-type Cable long Wire
-                                                    </p>
-                                                    <span className="my__PRODUCT_SLIDER_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                                </div>
-                                            </SwiperSlide>
-                                            <SwiperSlide>
-                                                <div className="col-4 w-100" style={{ position: "relative" }}>
-                                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                                        <div className="card-body">
-                                                            <img
-                                                                src="../../assets/img/product1.png"
-                                                                alt="product_image"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <h6
-                                                        className="my__COLOR mb-2 mt-2"
-                                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                                    >
-                                                        Rs. 1,695
-                                                    </h6>
-                                                    <p
-                                                        className="text-dark"
-                                                        style={{
-                                                            fontSize: "0.7rem",
-                                                            fontWeight: "600",
-                                                            lineHeight: "15px",
-                                                        }}
-                                                    >
-                                                        C-type Cable long Wire
-                                                    </p>
-                                                    <span className="my__PRODUCT_SLIDER_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                                </div>
-                                            </SwiperSlide>
-                                            <SwiperSlide>
-                                                <div className="col-4 w-100" style={{ position: "relative" }}>
-                                                    <div className="card rounded-5 my__BOX_RADIUS_10">
-                                                        <div className="card-body">
-                                                            <img
-                                                                src="../../assets/img/product1.png"
-                                                                alt="product_image"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <h6
-                                                        className="my__COLOR mb-2 mt-2"
-                                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
-                                                    >
-                                                        Rs. 1,695
-                                                    </h6>
-                                                    <p
-                                                        className="text-dark"
-                                                        style={{
-                                                            fontSize: "0.7rem",
-                                                            fontWeight: "600",
-                                                            lineHeight: "15px",
-                                                        }}
-                                                    >
-                                                        C-type Cable long Wire
-                                                    </p>
-                                                    <span className="my__PRODUCT_SLIDER_BADGE" onClick={() => setIsOpen(true)}>+</span>
-                                                </div>
-                                            </SwiperSlide>
+                                            {productListingData?.map((data:any, index:any)=>{
+                                        return(
+                                            <SwiperSlide key={index}>
+                                            <div className="col-4 w-100" style={{ position: "relative" }}>
+                                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                                        <div className="card-body">
+                                            <img
+                                                src={`${baseImgUrl}${data.large_img}`}
+                                                alt={data.pro_title}
+                                            />
+                                        </div>
+                                    </div>
+                                    <h6
+                                        className="my__COLOR mb-2 mt-2"
+                                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                                    >
+                                        {`Rs. ${data.actual_price}`}
+                                    </h6>
+                                    <p
+                                        className="text-dark"
+                                        style={{
+                                            fontSize: "0.7rem",
+                                            fontWeight: "600",
+                                            lineHeight: "15px",
+                                        }}
+                                    >
+                                        {data.pro_title}
+                                    </p>
+                                    <span className="my__PRODUCT_SLIDER_BADGE" onClick={() =>{getModalData(`index.php?endPoint=product&prdId=${data.id}`); setIsOpen(true);}}>+</span>
+                                </div>
+                                                            </SwiperSlide>
+                                        )
+                                })}
                                         </Swiper>
                                         </div>
                                     </div>
@@ -621,6 +322,8 @@ const ProductListing: React.FC = () => {
                             </div>
                         </IonContent>
                     </IonModal>
+                    :
+                    ""}
                 </>
             </IonContent>
         </IonPage >

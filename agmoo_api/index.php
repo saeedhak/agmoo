@@ -65,9 +65,35 @@ if (!empty($_GET['endPoint'])) {
 
 
     if ($getEndPointData != "" && $getEndPointData === "brand") {
-        $sendData = mysqli_query($condb, "SELECT * FROM brands WHERE status = 'Yes' ");
+        if($getData['moduleId']){
+            $sendData = mysqli_query($condb, "SELECT * FROM products WHERE brand_id = '".$getData['moduleId']."' AND status = 'Yes' ");
+        }else{
+
+            $sendData = mysqli_query($condb, "SELECT * FROM brands WHERE status = 'Yes' ");
+        }
     }elseif($getEndPointData != "" && $getEndPointData === "category"){
-        $sendData = mysqli_query($condb, "SELECT * FROM categories WHERE status = 'Yes' ");
+        if($getData['moduleId']){
+            $sendData = mysqli_query($condb, "SELECT * FROM products WHERE cat_id = '".$getData['moduleId']."' AND status = 'Yes' ");
+        }elseif($getData['catWithSubCat']){
+            $CATEGORY_WITH_SUBCATEGORY = array(
+                'category' => [],
+                'subCategory' =>[] 
+            );
+            $sendData = mysqli_query($condb, "SELECT * FROM categories WHERE status = 'Yes' ");
+            while($data = mysqli_fetch_assoc($sendData)){
+
+                array_push($CATEGORY_WITH_SUBCATEGORY['category'], $data);
+            }
+            $sendData = mysqli_query($condb, "SELECT * FROM subcategory WHERE status = 'Yes' ");
+            while($data = mysqli_fetch_assoc($sendData)){
+
+                array_push($CATEGORY_WITH_SUBCATEGORY['subCategory'], $data);
+            }
+            array_push($GLOBALS['dataArray'],$CATEGORY_WITH_SUBCATEGORY);
+        }else{
+
+            $sendData = mysqli_query($condb, "SELECT * FROM categories WHERE status = 'Yes' ");
+        }
     }elseif($getEndPointData != "" && $getEndPointData === "product"){
         if($getData['prdId']){
             $sendData = mysqli_query($condb, "SELECT * FROM products WHERE id = '".$getData['prdId']."' ");
