@@ -31,7 +31,7 @@ const Tab1: React.FC = () => {
           </div>
           <div className="row">
             <div className="col-6">
-            <Link to="/listing" style={{ textDecoration: "none" }}>
+            <Link to="/listing/brand" style={{ textDecoration: "none" }}>
               <div className="card shadow my__BOX_RADIUS">
                 <div className="card-body pe-0">
                   <h5 className="card-title my__textLeft my__headTitle mb-1 mt-0 text-dark">Brands</h5>
@@ -49,6 +49,7 @@ const Tab1: React.FC = () => {
             <div className="col-6 pl-0">
               <div className="row">
                 <div className="col-12 pb-2 ps-0 ">
+                <Link to="/listing/category" style={{ textDecoration: "none" }}>
                   <div className="card shadow my__BOX_RADIUS">
                     <div className="card-body pe-0 pb-2">
                       <div className="row g-0">
@@ -62,8 +63,10 @@ const Tab1: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                  </Link>
                 </div>
                 <div className="col-12 ps-0">
+                <Link to="/listing/product" style={{ textDecoration: "none" }}>
                   <div className="card shadow my__BOX_RADIUS">
                     <div className="card-body pe-0 pb-0">
                       <div className="row g-0">
@@ -77,6 +80,7 @@ const Tab1: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                  </Link>
                 </div>
               </div>
             </div>

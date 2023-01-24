@@ -275,6 +275,9 @@ http://ionicframework.com/docs/theming/ */
     color: white !important;
   }
   .my__Border{
+    border-color: #DEE1E6 !important;
+  }
+  .my__border_checked{
     border-color: #FF653B !important;
   }
   .my__COLOR{

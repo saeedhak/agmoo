@@ -52,10 +52,10 @@ const App: React.FC = () => (
           <Route path="/cart">
             <Cart />
           </Route>
-          <Route exact path="/listing">
+          <Route path="/listing/:listingName">
             <HomeListing />
           </Route>
-          <Route exact path="/product-listing">
+          <Route exact path="/product-listing/:modelName/:id">
             <ProductListing />
           </Route>
           <Route exact path="/">
