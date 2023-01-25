@@ -29,6 +29,8 @@ const ProductListing: React.FC = () => {
     const [breadcrumb, setBreadcrumb] = useState<any>();
     const [modalProduct, setModalProduct] = useState<any>();
     const [activeId, setActiveId] = useState<any>();
+    const [selectCatId, setSelectCatId] = useState<any>();
+    const [subCatActiveId, setSubCatActiveId] = useState<any>();
     // use start variable end
 
     // useEffect start
@@ -65,15 +67,22 @@ const ProductListing: React.FC = () => {
         // get params data behalf of params module end 
         // get product listing data behalf of brand and categories start
             const getListingProductData = (moduleName:any, moduleNameId:any )=>{
-                    setActiveId(moduleNameId);
-                    if(paramsValue.modelName === "brand"){
-
+                let THIS_END_POINT = "";
+                    if(moduleName === "brand"){
+                        setActiveId(moduleNameId);
+                        THIS_END_POINT = `${baseUrl}${endPoint}${moduleName}&moduleId=${moduleNameId}` ;
                         moduleListingData && setBreadcrumb(moduleListingData.filter( (e:any) => e.id === moduleNameId ));
-                    }else{
-
+                    }else if(moduleName === "category"){
+                        setActiveId(moduleNameId);
+                        THIS_END_POINT = `${baseUrl}${endPoint}${moduleName}&moduleId=${moduleNameId}` ;
                         moduleListingData && setBreadcrumb(moduleListingData[0].category.filter( (e:any) => e.id === moduleNameId ));
+                    }else if(moduleName === "subCategory"){
+                        THIS_END_POINT = `${baseUrl}${endPoint}category&moduleSubCatId=${moduleNameId}` ;
+                        moduleListingData && setBreadcrumb(moduleListingData[0].subCategory.filter( (e:any) => e.id === moduleNameId ));
                     }
-                    fetch(`${baseUrl}${endPoint}${moduleName}&moduleId=${moduleNameId}`)
+                    // console.log(THIS_END_POINT);
+                    // return false;
+                    fetch(THIS_END_POINT)
                     .then((response) => {
                         return response.json();
                     })
@@ -96,8 +105,8 @@ const ProductListing: React.FC = () => {
     // my function end 
 
     // test area start
-    // console.log(productListingData);
-    // console.log(breadcrumb);
+    console.log(productListingData);
+    console.log(breadcrumb);
     console.log(moduleListingData);
     // test area end 
     return (
@@ -135,7 +144,7 @@ const ProductListing: React.FC = () => {
                             >
                                 {moduleListingData && moduleListingData[0].category?.map((data:any, index:any) => {
                             return(
-                                <SwiperSlide className={`w-auto fw-bold pb-1 ${data.id === activeId?'my__CAT_ACTIVE':''}`} key={index} onClick={()=>{getListingProductData("category",data.id)}}>
+                                <SwiperSlide className={`w-auto fw-bold pb-1 ${data.id === activeId?'my__CAT_ACTIVE':''}`} key={index} onClick={()=>{getListingProductData("category",data.id);setSelectCatId(data.id)}}>
                                 {data.cat_title}
                             </SwiperSlide>     
                             )
@@ -152,15 +161,17 @@ const ProductListing: React.FC = () => {
                                 className="my__headSubTitle pt-2 pb-2"
                             >
                                 {moduleListingData && moduleListingData[0].subCategory?.map((data:any, index:any) => {
-                                    if(data.cat_id === activeId){
+                                    if(data.cat_id === selectCatId){
                                         
                                         return(
-                                            <SwiperSlide className={`w-auto shadow fw-bold ps-3 pe-3 pt-1 pb-1 rounded-pill ${index === 1?'my__SUB_CAT_ACTIVE':''}`} key={index} onClick={()=>{}}>
+                                            <SwiperSlide className={`w-auto shadow fw-bold ps-3 pe-3 pt-1 pb-1 rounded-pill ${data.id === subCatActiveId?'my__SUB_CAT_ACTIVE':''}`} key={index} onClick={()=>{getListingProductData("subCategory",data.id);setSubCatActiveId(data.id)}}>
                                                 {/* getListingProductData("category",data.id) */}
                                             {data.subcat_title}
-                                        </SwiperSlide>     
+                                            </SwiperSlide>     
                                         )
-                                    }else{return("")}
+                                    }else{
+                                        return("")
+                                    }
                         })}
                             </Swiper>
                         </div>
@@ -179,6 +190,7 @@ const ProductListing: React.FC = () => {
                             >
                                 {breadcrumb && breadcrumb[0] && paramsValue.modelName === "brand" && breadcrumb[0].brands_title}
                                 {breadcrumb && breadcrumb[0] && paramsValue.modelName === "category" && breadcrumb[0].cat_title}
+                                {breadcrumb && breadcrumb[0] && paramsValue.modelName === "category" && breadcrumb[0].subcat_title}
                             </h6>
                         </div>
                     </div>
