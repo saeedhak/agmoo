@@ -334,4 +334,19 @@ http://ionicframework.com/docs/theming/ */
     border-bottom-left-radius: 50rem !important;
     border-top-left-radius: 50rem !important;
   }
+  .my__CART_VALUE{
+    width: 17px;
+    height: 17px;
+    text-align: center;
+    border-radius: 50%;
+    background-color: #FF653B;
+    color: white;
+    position: absolute;
+    left: 40px;
+    right: 0px;
+    top: 2px;
+    bottom: 0;
+    font-size: 11px;
+    font-weight: 700;
+  }
 /* custom css End */

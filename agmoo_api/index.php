@@ -96,7 +96,7 @@ if (!empty($_GET['endPoint'])) {
         }elseif($getData['moduleSubCatId']){
 
             $sendData = mysqli_query($condb, "SELECT * FROM products WHERE subcat_id = '".$getData['moduleSubCatId']."' AND status = 'Yes' ");
-            
+
         }else{
 
             $sendData = mysqli_query($condb, "SELECT * FROM categories WHERE status = 'Yes' ");
@@ -109,7 +109,31 @@ if (!empty($_GET['endPoint'])) {
             $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' ");
 
         }
+    }elseif($getEndPointData != "" && $getEndPointData === "addToCart"){
+
+        if($getData['action'] == "insert"){
+            $prdData = mysqli_fetch_assoc(mysqli_query($condb, "SELECT * FROM products WHERE id = '".$getData['prdId']."' "));
+            $cartData = mysqli_query($condb, "SELECT * FROM cart WHERE session_id = '".$getData['sessionId']."' AND product_id = '".$getData['prdId']."'  ");
+            if(mysqli_num_rows($cartData) > 0 && $prdData['stock_qty'] > $getData['cartQTY'] ){
+                $cartData = mysqli_fetch_assoc($cartData);
+                $__nowCartQty = $cartData['qty']+1;
+                $__productPrice = $__nowCartQty * $prdData['actual_price'];
+                $updateQuery = "UPDATE cart SET qty = '".$__nowCartQty."', total_price = '".$__productPrice."' WHERE id = '".$cartData['id']."' ";  
+                if(mysqli_query($condb,$updateQuery)){
+                    array_push($GLOBALS['dataArray'],['cartResponse' => 'addQty']);
+                }
+            }else{
+                $__productPrice = $getData['cartQTY'] * $prdData['actual_price'];
+                $insertQuery = "INSERT INTO cart SET session_id = '".$getData['sessionId']."', product_id = '".$getData['prdId']."', total_price = '".$__productPrice."', qty = '".$getData['cartQTY']."', actual_price = '".$prdData['actual_price']."' ";
+                if(mysqli_query($condb, $insertQuery)){
+                    array_push($GLOBALS['dataArray'],['cartResponse' => 'insertProductInCart']);
+                }
+            }
+        }
     }
+
+
+
 } else {
 
     // $getData = " ERROR:- unsecure trasfer method...!!!  ";

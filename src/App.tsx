@@ -1,4 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
 import {
   IonApp,
   IonIcon,
@@ -38,8 +39,33 @@ import './theme/variables.css';
 
 setupIonicReact();
 
-const App: React.FC = () => (
-  <IonApp>
+const App: React.FC = () => {
+  const [cartVal, setCartVal] = useState<any>();
+  useEffect(()=>{
+    setCartVal(localStorage.getItem('CartQty'));
+  },[setCartVal])
+  // my function start
+      const S_ID = function () {
+        // Math.random should be unique because of its seeding algorithm.
+        // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+        // after the decimal.
+        return( '_' + Math.random().toString(36).substr(2, 9));
+      }
+      // set user session id start
+    if(!localStorage.getItem('sessionID')){
+      localStorage.setItem('sessionID','S_ID'+S_ID())
+    }
+    // set user session id end
+
+    // set cart QTY start
+    if(!localStorage.getItem('CartQty')){
+      localStorage.setItem('CartQty','0')
+      setCartVal(localStorage.getItem('CartQty'))
+    }
+    // set Cart QTY end
+  // my function end
+  return(
+    <IonApp>
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
@@ -74,11 +100,13 @@ const App: React.FC = () => (
           <IonTabButton tab="cart" href="/cart">
             <IonIcon icon={cartOutline} />
             <IonLabel>Cart</IonLabel>
+            {cartVal && cartVal === "0"?"":<span className='my__CART_VALUE'>{cartVal}</span> }
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
   </IonApp>
-);
+  )
+};
 
 export default App;
