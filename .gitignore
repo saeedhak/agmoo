@@ -5,6 +5,8 @@
 /android
 /.pnp
 .pnp.js
+/agmoo_api/error_log
+
 
 # testing
 /coverage
