@@ -10,7 +10,7 @@ const Tab1: React.FC = () => {
       <Header />
       <IonContent fullscreen>
         <div className="container bg-light pt-4 my__PB_3 h-100">
-
+          {!localStorage.getItem('userLogin') && 
           <div className="card shadow rounded-pill mb-3">
             <div className="card-body p-1">
               <div className="row g-0">
@@ -22,13 +22,16 @@ const Tab1: React.FC = () => {
                   <p className="card-text m-0" style={{ fontSize: "0.6rem", fontWeight: "500",lineHeight: "12px" }}>See for better result for our new & featured brand's product</p>
                 </div>
                 <div className="col-4 pe-1 mt-1">
+                <Link to="/account" style={{ textDecoration: "none" }}>
                     <div className="pt-3 pb-3  w-100 badge my__BG text-wrap rounded-pill text-center">
                     Lets's go!
                     </div>
+                    </Link>
                 </div>
               </div>
             </div>
           </div>
+          }
           <div className="row">
             <div className="col-6">
             <Link to="/listing/brand" style={{ textDecoration: "none" }}>

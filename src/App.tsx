@@ -63,6 +63,18 @@ const App: React.FC = () => {
       setCartVal(localStorage.getItem('CartQty'))
     }
     // set Cart QTY end
+
+    // set user login start
+    if(!localStorage.getItem('userLogin')){
+      localStorage.setItem('userLogin','false')
+    }
+    // set user login end
+
+    // set user name start 
+    if(!localStorage.getItem('userName')){
+      localStorage.setItem('userName','Login')
+    }
+    // set user name end
   // my function end
   return(
     <IonApp>

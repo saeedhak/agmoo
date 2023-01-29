@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Link , useParams } from "react-router-dom";
+import { Link , useParams, useHistory   } from "react-router-dom";
 import {
     IonContent,
     IonPage,
@@ -20,6 +20,7 @@ const ProductListing: React.FC = () => {
     // my const variable start
     const paramsValue:any = useParams();
     const [presentAlert] = useIonAlert();
+    const history = useHistory();
     const baseImgUrl = "https://agmoo.com/";
     const baseUrl = "https://agmoo.com/agmoo_api/";
     const endPoint = `index.php?endPoint=`;
@@ -141,7 +142,24 @@ const ProductListing: React.FC = () => {
                 localStorage.setItem('CartQty', setCartQTY);
                 presentAlert({
                     header: 'Product Successfully Add To Cart',
-                    buttons: ['OK'],
+                    buttons: [
+                        {
+                          text: 'Go To cart',
+                          role: 'conform',
+                          handler: () => {
+                            history.push("/cart");
+                            setIsOpen(false);
+                          },
+                        },
+                        {
+                          text: 'Continue Shoping',
+                          role: 'confirm',
+                          handler: () => {
+                            history.push("/home");
+                            setIsOpen(false);
+                          },
+                        },
+                      ],
                   })
             }
             return setCartResponse(data.sendData[0].cartResponse);
@@ -154,7 +172,7 @@ const ProductListing: React.FC = () => {
     // console.log(productListingData);
     // console.log(breadcrumb);
     // console.log(moduleListingData);
-    console.log(cartResponse);
+    // console.log(cartResponse);
     // test area end 
     return (
         <IonPage>

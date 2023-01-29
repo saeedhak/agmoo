@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
                                             <IonAvatar>
                                                 <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                             </IonAvatar>
-                                            <IonLabel style={{ fontSize: '.8rem' }}>Login</IonLabel>
+                                            <IonLabel style={{ fontSize: '.8rem' }}>{localStorage.getItem('userName')}</IonLabel>
                                         </IonChip>
                                     </div>
                                 </>
@@ -53,7 +53,7 @@ export const Header: React.FC = () => {
                                             <IonAvatar>
                                                 <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
                                             </IonAvatar>
-                                            <IonLabel style={{ fontSize: '.8rem' }}>Login</IonLabel>
+                                            <IonLabel style={{ fontSize: '.8rem' }}>{localStorage.getItem('userName')}</IonLabel>
                                         </IonChip>
                                     </div>
                                 </>}

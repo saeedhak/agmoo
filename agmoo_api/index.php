@@ -130,11 +130,74 @@ if (!empty($_GET['endPoint'])) {
                 }
             }
         }
+    }elseif($getEndPointData != "" && $getEndPointData === "cart"){
+
+        if($getData['action'] == "cardData"){
+
+            $sendData = mysqli_query($condb, "SELECT C.*,PRD.large_img, PRD.pro_title, PRD.stock_qty FROM cart AS C
+            INNER JOIN products AS PRD ON C.product_id = PRD.id
+            WHERE C.session_id = '".$getData['sessionId']."'  ");
+        
+        }elseif($getData['action'] == "add" || $getData['action'] == "remove"){
+            $myQuery = "";
+            $getCardData =  mysqli_fetch_assoc(mysqli_query($condb, "SELECT * FROM cart WHERE id = '".$getData['cartId']."' "));
+           
+           if($getData['action'] == "add"){
+            $nowCurrentQTY = $getCardData['qty']+1;
+            $myQuery = "UPDATE cart SET qty = '".$nowCurrentQTY."' WHERE id = '".$getData['cartId']."' "; 
+           }elseif($getData['action'] == "remove"){
+            $nowCurrentQTY = $getCardData['qty']-1;
+            $myQuery = "UPDATE cart SET qty = '".$nowCurrentQTY."' WHERE id = '".$getData['cartId']."' ";
+           }
+
+           if(mysqli_query($condb,$myQuery)){
+
+            $sendData = mysqli_query($condb, "SELECT C.*,PRD.large_img, PRD.pro_title, PRD.stock_qty FROM cart AS C
+            INNER JOIN products AS PRD ON C.product_id = PRD.id
+            WHERE C.session_id = '".$getData['sessionId']."'  ");
+
+           }
+
+        }
     }
 
 
 
-} else {
+}elseif(isset($_REQUEST['formData']) && !empty($_REQUEST['formData']) && $_REQUEST['formData'] == "objFormData"){
+    $getData = $_REQUEST['endPoint'];
+    $getFormData = $_REQUEST;
+    // user login
+        if($getData != '' && $getData == 'userLogin'){
+
+            $checkUserData = mysqli_fetch_assoc(mysqli_query($condb,"SELECT user_id, first_name FROM members_reg WHERE email = '".$getFormData['userEmail']."' AND password_my = '".$getFormData['userPassword']."' "));
+            if(isset($checkUserData['user_id']) && $checkUserData['user_id'] != ''){
+                mysqli_query($condb,"UPDATE cart SET session_id = '".$checkUserData['user_id']."' WHERE session_id = '".$getFormData['sessionId']."' ");
+                $formResponse = $checkUserData['first_name'];
+            }else{
+
+                $formResponse = "invalid user...!!!";
+            }
+            array_push($GLOBALS['dataArray'],$formResponse);
+        }elseif($getData != '' && $getData == 'userRegistration'){
+            // check email 
+            $checkEmail = mysqli_query($condb,"select user_id from members_reg where email = '".$getFormData['email']."'");
+		if(mysqli_num_rows($checkEmail) > 0){
+            $formResponse = "duplicate";
+		}else{
+            $insertQuery = "insert into members_reg set first_name = '".$getFormData['firstName']."', last_name = '".$getFormData['lastName']."', email = '".$getFormData['email']."', password = '".md5($getFormData['password'])."', password_my = '".$getFormData['password']."', mobile_phone = '".$getFormData['contact']."', bill_city = '".$getFormData['city']."', bill_zipcode = '".$getFormData['zipCode']."', bill_address = '".$getFormData['address']."'";
+			if(mysqli_query($condb,$insertQuery)){
+                $formResponse = "success";
+			}else{
+                $formResponse = "error";
+            }
+		} 
+            // $insertQuery = ""
+
+            // send data to global array
+            array_push($GLOBALS['dataArray'],$formResponse);
+
+        }
+}else {
 
     // $getData = " ERROR:- unsecure trasfer method...!!!  ";
     // $sendData = ['error1' => ' ERROR1:- unsecure trasfer method1...!!! '];
