@@ -10,7 +10,7 @@ const Tab1: React.FC = () => {
       <Header />
       <IonContent fullscreen>
         <div className="container bg-light pt-4 my__PB_3 h-100">
-          {!localStorage.getItem('userLogin') && 
+          {localStorage.getItem('userLogin') === "false" && 
           <div className="card shadow rounded-pill mb-3">
             <div className="card-body p-1">
               <div className="row g-0">

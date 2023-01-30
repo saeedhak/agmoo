@@ -3,8 +3,14 @@ import { useHistory } from "react-router-dom";
 import {
   IonContent,
   IonPage,
-  useIonAlert
+  useIonAlert,
+  IonAccordion, 
+  IonAccordionGroup,
+  IonItem, 
+  IonLabel,
+  IonIcon 
 } from "@ionic/react";
+import { cartSharp,qrCodeSharp, locateSharp, cashSharp, logOutSharp } from 'ionicons/icons';
 import Header from "../components/Header";
 
 const Account: React.FC = () => {
@@ -47,7 +53,8 @@ const Account: React.FC = () => {
             })
         }else{
           let tempCartQTY:any = localStorage.getItem('CartQty');
-            localStorage.setItem('userName', data.sendData[0]);
+            localStorage.setItem('userName', data.sendData[0].userName);
+            localStorage.setItem('sessionID', data.sendData[0].userId);
             localStorage.setItem('userLogin', 'true');
             loginForm.current.reset();
             if(parseInt(tempCartQTY) > 0){
@@ -98,6 +105,15 @@ const Account: React.FC = () => {
       });
   }
   // registration end 
+  // my logout fun start
+  const myLogoutFun = ()=>{
+    let getTempSessionId:any  = localStorage.getItem('tempSessionID');
+    localStorage.setItem('userLogin','false');
+    localStorage.setItem('userName','Login');
+    localStorage.setItem('sessionID',getTempSessionId);
+    history.push('/home');
+  }
+  // my logout fun end 
   // my function end 
 
   // try area start
@@ -107,85 +123,150 @@ const Account: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent fullscreen>
-        <div className="container bg-light pt-4 my__PB_3">
-        <div className="row mb-3">
-            <div className="col-12">
-              <div className="card shadow my__BOX_RADIUS pt-2 pb-2">
-                <div className="card-body text-center">
-                  <span className="card-title pt-2 pb-2 ps-4 pe-4 shadow-2 rounded-pill my__headTitle text-center my__BG">Login Here !</span>
-                  <div className="row pt-4">
-                    <div className="col-12">
-                      <form ref={loginForm} onSubmit={loginFormSubmit}>
-                        <div className="mb-3">
-                          <input type="email" className="form-control form-control-sm" name="userEmail" id="user_email" placeholder="Enter Your Email!" required />
-                        </div>
-                        <div className="mb-3">
-                          <input type="password" className="form-control form-control-sm" name="userPassword" id="user_password" placeholder="Enter Your Password" required />
-                        </div>
-                        <button type="submit" name="submit" className="w-100 text-center btn btn-sm my__BG rounded-pill">Login </button>
-                      </form>
+        <div className="container bg-light pt-4 my__PB_3 h-100">
+          {localStorage.getItem('userLogin') === "true"?
+            <>
+              <div className="row mb-3">
+                <div className="col-12">
+                <IonAccordionGroup>
+                  <IonAccordion value="myOrders">
+                    <IonItem slot="header" color="light">
+                      <IonLabel>
+                        <IonIcon className="icon my__BG p-1 rounded" icon={cartSharp} style={{fontSize:'1.5rem'}}></IonIcon>
+                        <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>My orders</span>
+                      </IonLabel>
+                    </IonItem>
+                    <div className="ion-padding" slot="content">
+                       this is my orders
                     </div>
-                  </div>
+                  </IonAccordion>
+                  <IonAccordion value="myDetails">
+                    <IonItem slot="header" color="light">
+                      <IonLabel>
+                        <IonIcon className="icon my__BG p-1 rounded" icon={qrCodeSharp} style={{fontSize:'1.5rem'}}></IonIcon>
+                        <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>My Details</span>
+                      </IonLabel>
+                    </IonItem>
+                    <div className="ion-padding" slot="content">
+                       this is my myDetails
+                    </div>
+                  </IonAccordion>
+                  <IonAccordion value="address">
+                    <IonItem slot="header" color="light">
+                      <IonLabel>
+                        <IonIcon className="icon my__BG p-1 rounded" icon={locateSharp} style={{fontSize:'1.5rem'}}></IonIcon>
+                        <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>Save Address</span>
+                      </IonLabel>
+                    </IonItem>
+                    <div className="ion-padding" slot="content">
+                       this is my Address
+                    </div>
+                  </IonAccordion>
+                  <IonAccordion value="payment">
+                    <IonItem slot="header" color="light">
+                      <IonLabel>
+                        <IonIcon className="icon my__BG p-1 rounded" icon={cashSharp} style={{fontSize:'1.5rem'}}></IonIcon>
+                        <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>Payment Method</span>
+                      </IonLabel>
+                    </IonItem>
+                    <div className="ion-padding" slot="content">
+                       COD (<small>Cash On Delivery</small>)
+                    </div>
+                  </IonAccordion>
+                  <IonAccordion value="logout" onClick={myLogoutFun}>
+                    <IonItem slot="header" color="light">
+                      <IonLabel>
+                        <IonIcon className="icon my__BG p-1 rounded" icon={logOutSharp} style={{fontSize:'1.5rem'}}></IonIcon>
+                        <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>Logout</span>
+                      </IonLabel>
+                    </IonItem>
+                  </IonAccordion>
+                </IonAccordionGroup>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12">
-              <div className="card shadow my__BOX_RADIUS pt-3 pb-3">
-                <div className="card-body text-center">
-                  <span className="card-title pt-2 pb-2 ps-4 pe-4 shadow-2 rounded-pill my__headTitle text-center my__BG">Register Here !</span>
-                  <div className="row pt-4">
-                    <div className="col-12">
-                      <form ref={loginForm} onSubmit={regFormSubmit}>
-                      <div className="row g-0">
-                          <div className="col-6">
-                            <div className="mb-3">
-                              <input type="text" className="form-control form-control-sm" name="firstName" id="user_city" placeholder="First Name" required />
-                            </div>
-                          </div>
-                          <div className="col-6">
-                            <div className="mb-3">
-                              <input type="text" className="form-control form-control-sm" name="lastName" id="user_zip_code" placeholder="Last Name" required />
-                            </div>
-                          </div>
-                        </div>
-                        <div className="mb-3">
-                          <input type="email" className="form-control form-control-sm" name="email" id="user_email" placeholder="Enter Your Email!" required />
-                        </div>
-                        <div className="mb-3">
-                          <input type="password" className="form-control form-control-sm" name="password" id="user_password" placeholder="Enter Your Password" required />
-                        </div>
-                        <div className="mb-3">
-                          <input type="text" className="form-control form-control-sm" name="contact" id="user_contact" placeholder="Enter Your Contact no" required />
-                        </div>
-                        <div className="row g-0">
-                          <div className="col-8">
-                            <div className="mb-3">
-                              <input type="text" className="form-control form-control-sm" name="city" id="user_city" placeholder="City" required />
-                            </div>
-                          </div>
-                          <div className="col-4">
-                            <div className="mb-3">
-                              <input type="text" className="form-control form-control-sm" name="zipCode" id="user_zip_code" placeholder="Postal/Zip code" required />
-                            </div>
+            </>
+          :
+            <>
+              <div className="row mb-3">
+                  <div className="col-12">
+                    <div className="card shadow my__BOX_RADIUS pt-2 pb-2">
+                      <div className="card-body text-center">
+                        <span className="card-title pt-2 pb-2 ps-4 pe-4 shadow-2 rounded-pill my__headTitle text-center my__BG">Login Here !</span>
+                        <div className="row pt-4">
+                          <div className="col-12">
+                            <form ref={loginForm} onSubmit={loginFormSubmit}>
+                              <div className="mb-3">
+                                <input type="email" className="form-control form-control-sm" name="userEmail" id="user_email" placeholder="Enter Your Email!" required />
+                              </div>
+                              <div className="mb-3">
+                                <input type="password" className="form-control form-control-sm" name="userPassword" id="user_password" placeholder="Enter Your Password" required />
+                              </div>
+                              <button type="submit" name="submit" className="w-100 text-center btn btn-sm my__BG rounded-pill">Login </button>
+                            </form>
                           </div>
                         </div>
-                        <div className="mb-3">
-                          {/* <input type="text" className="form-control form-control-sm" name="address" id="user_address" placeholder="Enter Your Address" required /> */}
-                          <div className="form-floating">
-                            <textarea className="form-control" placeholder="Leave a comment here" name="address" id="floatingTextarea2" style={{ height: 100 }} />
-                            <label htmlFor="floatingTextarea2">Address</label>
-                          </div>
-                        </div>
-                        <button type="submit" name="submit" className="w-100 text-center btn btn-sm my__BG rounded-pill">Submit</button>
-                      </form>
+                      </div>
                     </div>
                   </div>
-                </div>
               </div>
-            </div>
-          </div>
+              <div className="row">
+                  <div className="col-12">
+                    <div className="card shadow my__BOX_RADIUS pt-3 pb-3">
+                      <div className="card-body text-center">
+                        <span className="card-title pt-2 pb-2 ps-4 pe-4 shadow-2 rounded-pill my__headTitle text-center my__BG">Register Here !</span>
+                        <div className="row pt-4">
+                          <div className="col-12">
+                            <form ref={loginForm} onSubmit={regFormSubmit}>
+                            <div className="row g-0">
+                                <div className="col-6">
+                                  <div className="mb-3">
+                                    <input type="text" className="form-control form-control-sm" name="firstName" id="user_city" placeholder="First Name" required />
+                                  </div>
+                                </div>
+                                <div className="col-6">
+                                  <div className="mb-3">
+                                    <input type="text" className="form-control form-control-sm" name="lastName" id="user_zip_code" placeholder="Last Name" required />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mb-3">
+                                <input type="email" className="form-control form-control-sm" name="email" id="user_email" placeholder="Enter Your Email!" required />
+                              </div>
+                              <div className="mb-3">
+                                <input type="password" className="form-control form-control-sm" name="password" id="user_password" placeholder="Enter Your Password" required />
+                              </div>
+                              <div className="mb-3">
+                                <input type="text" className="form-control form-control-sm" name="contact" id="user_contact" placeholder="Enter Your Contact no" required />
+                              </div>
+                              <div className="row g-0">
+                                <div className="col-8">
+                                  <div className="mb-3">
+                                    <input type="text" className="form-control form-control-sm" name="city" id="user_city" placeholder="City" required />
+                                  </div>
+                                </div>
+                                <div className="col-4">
+                                  <div className="mb-3">
+                                    <input type="text" className="form-control form-control-sm" name="zipCode" id="user_zip_code" placeholder="Postal/Zip code" required />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="mb-3">
+                                {/* <input type="text" className="form-control form-control-sm" name="address" id="user_address" placeholder="Enter Your Address" required /> */}
+                                <div className="form-floating">
+                                  <textarea className="form-control" placeholder="Leave a comment here" name="address" id="floatingTextarea2" style={{ height: 100 }} />
+                                  <label htmlFor="floatingTextarea2">Address</label>
+                                </div>
+                              </div>
+                              <button type="submit" name="submit" className="w-100 text-center btn btn-sm my__BG rounded-pill">Submit</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+            </>
+          }
         </div>
       </IonContent>
     </IonPage>

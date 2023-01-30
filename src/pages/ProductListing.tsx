@@ -100,6 +100,7 @@ const ProductListing: React.FC = () => {
             }
         // get product listing data behalf of brand and categories start
         const getModalData = (endpointVal:any)=>{
+            setCountCart(1);
             fetch(baseUrl+endpointVal)
           .then((response) => {
             return response.json();

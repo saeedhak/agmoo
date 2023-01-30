@@ -17,6 +17,7 @@ import Account from './pages/Account';
 import Cart from './pages/Cart';
 import HomeListing from './pages/HomeListing';
 import ProductListing from './pages/ProductListing';
+import Checkout from './pages/Checkout';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -53,13 +54,15 @@ const App: React.FC = () => {
       }
       // set user session id start
     if(!localStorage.getItem('sessionID')){
-      localStorage.setItem('sessionID','S_ID'+S_ID())
+      localStorage.setItem('sessionID','S_ID'+S_ID());
+      let getSessionId__ :any = localStorage.getItem('sessionID');
+      localStorage.setItem('tempSessionID',getSessionId__);
     }
     // set user session id end
 
     // set cart QTY start
     if(!localStorage.getItem('CartQty')){
-      localStorage.setItem('CartQty','0')
+      localStorage.setItem('CartQty','0');
       setCartVal(localStorage.getItem('CartQty'))
     }
     // set Cart QTY end
@@ -98,6 +101,9 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/">
             <Redirect to="/home" />
+          </Route>
+          <Route exact path="/checkout">
+            <Checkout/>
           </Route>
         </IonRouterOutlet>
         <IonTabBar className='shadow border rounded-pill' slot="bottom">

@@ -349,4 +349,17 @@ http://ionicframework.com/docs/theming/ */
     font-size: 11px;
     font-weight: 700;
   }
+
+  .icon {
+    display: inline-block;
+    font-size: 35px;
+    color: #ffC977;
+    vertical-align: middle;
+   }
+   
+   .text{
+     display: inline-block;
+     vertical-align: middle;
+   }
+   
 /* custom css End */

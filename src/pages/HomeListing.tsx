@@ -56,6 +56,7 @@ const HomeListing: React.FC = () => {
     };
     // get modal data behalf of product id start
     const getModalData = (endpointVal:any)=>{
+        setCountCart(1);
         fetch(baseUrl+endpointVal)
       .then((response) => {
         return response.json();

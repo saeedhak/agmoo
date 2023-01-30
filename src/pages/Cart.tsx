@@ -23,7 +23,7 @@ const Cart: React.FC = () => {
       // useEffect start
         useEffect(()=>{
           getCardData();
-        },[setCartData])
+        })
       // useEffect end 
 
       // get card data start
@@ -40,7 +40,6 @@ const Cart: React.FC = () => {
     // get card data end
     // start countCartFun => add or remove qty 
       const countCartFun = (actionPerform:any,cartId:any)=>{
-        console.log("run");
         let sessionID = localStorage.getItem('sessionID');
         fetch(`${baseUrl}${endPoint}cart&sessionId=${sessionID}&action=${actionPerform}&cartId=${cartId}`)
         .then((response) => {

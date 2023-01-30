@@ -159,6 +159,84 @@ if (!empty($_GET['endPoint'])) {
            }
 
         }
+    }elseif($getEndPointData != "" && $getEndPointData === "checkout"){
+        $CHECKOUT_ONlOAD_DATA = array(
+            'address' => [],
+            'cartSubtotal' =>[] 
+        );
+        if($getData['sessionId']){
+            $getUserData = mysqli_fetch_assoc(mysqli_query($condb,"SELECT bill_address FROM members_reg WHERE user_id = '".$getData['sessionId']."' "));
+            array_push($CHECKOUT_ONlOAD_DATA['address'], $getUserData['bill_address']);
+            $getCardData = mysqli_fetch_assoc(mysqli_query($condb,"SELECT SUM(total_price) AS sub_total FROM cart WHERE session_id = '".$getData['sessionId']."' "));
+            array_push($CHECKOUT_ONlOAD_DATA['cartSubtotal'], $getCardData['sub_total']);
+            
+            array_push($GLOBALS['dataArray'],$CHECKOUT_ONlOAD_DATA);
+
+        }
+    }elseif($getEndPointData != "" && $getEndPointData === "orderSubmit"){
+        if($getData['sessionId']){
+            //get current date 
+            $sortDate = date("Y-m-d");
+            // get user details
+            $getUserDetails = mysqli_fetch_assoc(mysqli_query($condb,"SELECT * FROM members_reg WHERE user_id = '".$getData['sessionId']."' "));
+            // get cart data 
+            $getCartDetails = mysqli_query($condb,"SELECT * FROM cart WHERE session_id = '".$getData['sessionId']."' ");
+            // total cart product price 
+            $totalCartProductPrice = mysqli_fetch_assoc(mysqli_query($condb,"SELECT SUM(`total_price`) As cartProductTotalPrice FROM `cart` WHERE `session_id` = '".$getData['sessionId']."' "));
+            // create order no 
+            $OrderConfirmationNumber = rand(100000,999990);
+            // insert order main for create user order behalf of one time checkout
+            $insertOrd_qry = "INSERT INTO  `order_main`  SET 
+            `user_id` = '".$getUserDetails['user_id']."',
+            `ord_confirm_num`='".$OrderConfirmationNumber."',
+            `subtotal_amount`='".$totalCartProductPrice['cartProductTotalPrice']."',
+            `total_amount` = '".$totalCartProductPrice['cartProductTotalPrice']."',
+            `user_email` ='".$getUserDetails['email']."',
+            `shipping_fname`='".$getUserDetails['first_name']."',
+            `shipping_lname`='".$getUserDetails['last_name']."',
+            `shipping_phone`='".$getUserDetails['mobile_phone']."',
+            `shipping_address`='".$getUserDetails['bill_address']."',
+            `shipping_city`='".$getUserDetails['bill_city']."',
+            `shipping_zipcode` ='".$getUserDetails['bill_zipcode']."',
+            `order_status`='Inprocess',
+            `payment_status`='Pending',
+            `payment_method`='COD',
+            `sort_date`='".$sortDate."',
+            `currency`= 'PKR '";
+
+            $insertQry=mysqli_query($condb, $insertOrd_qry);
+
+            // get order id behalf of orderMain
+            $OrderId=mysqli_insert_id($condb);
+
+            // insert order details all cart => this checkout data
+            while($rc = mysqli_fetch_array($getCartDetails)){
+                $insertOrd_Detail_qry = "INSERT INTO `order_detail` SET 
+                `orderid`='".$OrderId."',  
+                `user_id`='".$getUserDetails['user_id']."',
+                `prod_id`='".$rc['product_id']."',
+                `prod_qty`='".$rc['qty']."',
+                `unit_price`='".$rc['actual_price']."',
+                `discount_unit_value`='".$rc['discount_value']."',
+                `total_price`='".$rc['total_price']."',
+                `sort_date`='".$sortDate."'";
+                
+                $rs_ordDetailQry=mysqli_query($condb, $insertOrd_Detail_qry);
+
+                // 
+                    
+                    $TotalProdQty = mysqli_fetch_assoc(mysqli_query($condb,"SELECT `stock_qty` from `products` WHERE id = '".$rc['product_id']."'"));
+                    $LessItem = $TotalProdQty['stock_qty']- $rc['qty'];
+                    $UpdateQty = mysqli_query($condb,"UPDATE `products` SET `stock_qty` = '".$LessItem."' WHERE `id` = '".$rc['product_id']."'");
+                    $updatestatus = mysqli_query($condb,"UPDATE `order_main` SET `stock_qty_less` = 'Yes' WHERE `id` = '".$OrderId."'");
+                }
+            // now cart empty
+            $empty_cart = mysqli_query($condb, "DELETE FROM `cart` WHERE `session_id`='".$getData['sessionId']."'");
+            // array push data for response  
+            array_push($GLOBALS['dataArray'],['response' => 'done', 'orderId' => $OrderConfirmationNumber]);
+
+
+        }
     }
 
 
@@ -172,7 +250,7 @@ if (!empty($_GET['endPoint'])) {
             $checkUserData = mysqli_fetch_assoc(mysqli_query($condb,"SELECT user_id, first_name FROM members_reg WHERE email = '".$getFormData['userEmail']."' AND password_my = '".$getFormData['userPassword']."' "));
             if(isset($checkUserData['user_id']) && $checkUserData['user_id'] != ''){
                 mysqli_query($condb,"UPDATE cart SET session_id = '".$checkUserData['user_id']."' WHERE session_id = '".$getFormData['sessionId']."' ");
-                $formResponse = $checkUserData['first_name'];
+                $formResponse = ['userId' => $checkUserData['user_id'] ,'userName' => $checkUserData['first_name']];
             }else{
 
                 $formResponse = "invalid user...!!!";
