@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import Header from "../components/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link , useParams, useHistory   } from "react-router-dom";
@@ -16,6 +16,8 @@ import {
 
 // Import Swiper styles
 import "swiper/css";
+import NoteContext from "../context/MyContext";
+
 const ProductListing: React.FC = () => {
     // my const variable start
     const paramsValue:any = useParams();
@@ -24,6 +26,7 @@ const ProductListing: React.FC = () => {
     const baseImgUrl = "https://agmoo.com/";
     const baseUrl = "https://agmoo.com/agmoo_api/";
     const endPoint = `index.php?endPoint=`;
+    const useContextState = useContext(NoteContext);
     // my const variable end 
     // use start variable start
     const [isOpen, setIsOpen] = useState(false);
@@ -138,9 +141,7 @@ const ProductListing: React.FC = () => {
                     buttons: ['OK'],
                   })
             }else if(data.sendData[0].cartResponse === "insertProductInCart"){
-                let setCartQTY:any = localStorage.getItem('CartQty');
-                    setCartQTY = parseInt(setCartQTY) + 1;
-                localStorage.setItem('CartQty', setCartQTY);
+                useContextState.updateCartQty(parseInt(useContextState.stateCartQTY)+1);
                 presentAlert({
                     header: 'Product Successfully Add To Cart',
                     buttons: [

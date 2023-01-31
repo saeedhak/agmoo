@@ -1,16 +1,19 @@
+import React, {useContext} from "react";
 import {
   IonContent,
   IonPage
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
+import NoteContext from "../context/MyContext";
 const Tab1: React.FC = () => {
+  const useContextState = useContext(NoteContext);
   return (
     <IonPage>
       <Header />
       <IonContent fullscreen>
         <div className="container bg-light pt-4 my__PB_3 h-100">
-          {localStorage.getItem('userLogin') === "false" && 
+          {useContextState.userLoginStatus === "false" && 
           <div className="card shadow rounded-pill mb-3">
             <div className="card-body p-1">
               <div className="row g-0">

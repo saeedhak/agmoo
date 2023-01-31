@@ -1,5 +1,5 @@
 import { Redirect, Route } from 'react-router-dom';
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   IonApp,
   IonIcon,
@@ -18,7 +18,9 @@ import Cart from './pages/Cart';
 import HomeListing from './pages/HomeListing';
 import ProductListing from './pages/ProductListing';
 import Checkout from './pages/Checkout';
-
+import NoteState from './context/MyContextState';
+import NoteContext from "./context/MyContext";
+import CartTabBody from "./components/CartTabBody";
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -41,6 +43,8 @@ import './theme/variables.css';
 setupIonicReact();
 
 const App: React.FC = () => {
+  // const variable start
+  const useContextState = useContext(NoteContext);
   const [cartVal, setCartVal] = useState<any>();
   useEffect(()=>{
     setCartVal(localStorage.getItem('CartQty'));
@@ -60,19 +64,6 @@ const App: React.FC = () => {
     }
     // set user session id end
 
-    // set cart QTY start
-    if(!localStorage.getItem('CartQty')){
-      localStorage.setItem('CartQty','0');
-      setCartVal(localStorage.getItem('CartQty'))
-    }
-    // set Cart QTY end
-
-    // set user login start
-    if(!localStorage.getItem('userLogin')){
-      localStorage.setItem('userLogin','false')
-    }
-    // set user login end
-
     // set user name start 
     if(!localStorage.getItem('userName')){
       localStorage.setItem('userName','Login')
@@ -80,6 +71,7 @@ const App: React.FC = () => {
     // set user name end
   // my function end
   return(
+    <NoteState>
     <IonApp>
     <IonReactRouter>
       <IonTabs>
@@ -116,14 +108,13 @@ const App: React.FC = () => {
             <IonLabel>Account</IonLabel>
           </IonTabButton>
           <IonTabButton tab="cart" href="/cart">
-            <IonIcon icon={cartOutline} />
-            <IonLabel>Cart</IonLabel>
-            {cartVal && cartVal === "0"?"":<span className='my__CART_VALUE'>{cartVal}</span> }
+            <CartTabBody/>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>
     </IonReactRouter>
   </IonApp>
+  </NoteState>
   )
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   IonContent,
   IonPage,
@@ -6,6 +6,7 @@ import {
 } from "@ionic/react";
 import Header from "../components/Header";
 import { useHistory   } from "react-router-dom";
+import NoteContext from "../context/MyContext";
 const Cart: React.FC = () => {
   // my variable start
     // const variable start
@@ -14,6 +15,7 @@ const Cart: React.FC = () => {
     const history = useHistory();
     const [presentAlert] = useIonAlert();
     const baseImgUrl = "https://agmoo.com/";
+    const useContextState = useContext(NoteContext);
     // const variable end
     // use state variable start
     const [cartData, setCartData] = useState<any>();
@@ -34,6 +36,7 @@ const Cart: React.FC = () => {
             return response.json();
         })
         .then((data) => {
+          useContextState.updateCartQty(data.sendData.length);
             return setCartData(data.sendData);
         })
     }
@@ -122,7 +125,7 @@ const Cart: React.FC = () => {
           {cartData && <div className="row mt-4">
             <div className="col-10 mx-auto">
             <span className="badge rounded-pill my__BG w-100 shadow pt-3 pb-3" style={{ fontSize: "0.8rem", fontWeight: "500" }} onClick={()=>{
-              checkUserLoginFun(localStorage.getItem('userLogin'))
+              checkUserLoginFun(useContextState.userLoginStatus)
             }}> Go To Checkout</span>
             </div>
           </div>}

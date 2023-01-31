@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState, useContext} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
     IonContent,
@@ -13,6 +13,7 @@ import {
     useIonAlert
 } from "@ionic/react";
 import Header from "../components/Header";
+import NoteContext from "../context/MyContext";
 import { Link , useParams, useHistory } from "react-router-dom";
 // import { title } from "process";
 
@@ -24,6 +25,7 @@ const HomeListing: React.FC = () => {
     const baseImgUrl = "https://agmoo.com/";
     const baseUrl = "https://agmoo.com/agmoo_api/";
     const endPoint = `index.php?endPoint=${paramsValue.listingName}`;
+    const useContextState = useContext(NoteContext);
     // constant variable end
 
     // use state start
@@ -94,9 +96,7 @@ const HomeListing: React.FC = () => {
                 buttons: ['OK'],
               })
         }else if(data.sendData[0].cartResponse === "insertProductInCart"){
-            let setCartQTY:any = localStorage.getItem('CartQty');
-                setCartQTY = parseInt(setCartQTY) + 1;
-            localStorage.setItem('CartQty', setCartQTY);
+            useContextState.updateCartQty(parseInt(useContextState.stateCartQTY)+1);
             presentAlert({
                 header: 'Product Successfully Add To Cart',
                 buttons: [

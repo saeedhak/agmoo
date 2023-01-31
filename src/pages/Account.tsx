@@ -13,6 +13,7 @@ import {
 } from "@ionic/react";
 import { cartSharp,qrCodeSharp, locateSharp, cashSharp, logOutSharp } from 'ionicons/icons';
 import Header from "../components/Header";
+import NoteContext from "../context/MyContext";
 
 const Account: React.FC = () => {
   // const variable start
@@ -21,6 +22,7 @@ const Account: React.FC = () => {
   const endPoint = `index.php?endPoint=`;
   const history = useHistory();
   const [presentAlert] = useIonAlert();
+  const useContextState = useContext(NoteContext);
     //use state variable start
     const [formResponse, setFormResponse] = useState<any>();
     const [getUserDetails, setUserDetails] = useState<any>();
@@ -48,22 +50,18 @@ const Account: React.FC = () => {
       .then((data) => {
         setFormResponse(data.sendData);
         if(data.sendData[0] === "invalid user...!!!" ){
-            // setTimeout(() => {
-            //     setFormResponse('');
-            // },2000);
             presentAlert({
               header: 'Invalid User! ',
               subHeader: 'Plz insert correct details',
               buttons: ['OK'],
             })
         }else{
-          let tempCartQTY:any = localStorage.getItem('CartQty');
             localStorage.setItem('userName', data.sendData[0].userName);
             localStorage.setItem('sessionID', data.sendData[0].userId);
-            localStorage.setItem('userLogin', 'true');
+            useContextState.updateUserLoginStatusFun("true");
             getUserDataAfterLogin(data.sendData[0].userId);
             loginForm.current.reset();
-            if(parseInt(tempCartQTY) > 0){
+            if(parseInt(useContextState.stateCartQTY) > 0){
                 history.push('/cart');
             }else{
               history.push('/home');
@@ -113,8 +111,8 @@ const Account: React.FC = () => {
   // registration end 
   // my logout fun start
   const myLogoutFun = ()=>{
-    let getSessionId:any  = localStorage.getItem('sessionID');
-    localStorage.setItem('userLogin','false');
+    let getSessionId:any  = localStorage.getItem('tempSessionID');
+    useContextState.updateUserLoginStatusFun("false");
     localStorage.setItem('userName','Login');
     localStorage.setItem('sessionID',getSessionId);
     history.push('/home');
@@ -122,7 +120,7 @@ const Account: React.FC = () => {
   // my logout fun end 
   // get user data after login start
     const getUserDataAfterLogin = (userId:any)=>{
-      if(localStorage.getItem('userLogin') === "true"){
+      // if(useContextState.userLoginStatus === "true"){
         fetch(`${baseUrl}${endPoint}userDataAfterLogin&sessionId=${userId}`)
         .then((response) => {
           return response.json();
@@ -155,7 +153,7 @@ const Account: React.FC = () => {
             : "",
           });
         });
-      }
+      // }
     }
   // get user data after login end 
   // update user details start
@@ -198,15 +196,17 @@ const Account: React.FC = () => {
     <IonPage>
       <Header />
       <IonContent fullscreen>
-        <div className="container bg-light pt-4 my__PB_3 h-100">
-          {localStorage.getItem('userLogin') === "true"?
+        <div className="container bg-light pt-4 my__PB_3">
+          {useContextState.userLoginStatus === "true"?
             <>
               <div className="row mb-3">
                 <div className="col-12">
                 <IonAccordionGroup>
                   <IonAccordion value="myOrders">
                     <IonItem slot="header" color="light">
-                      <IonLabel>
+                      <IonLabel 
+                      // onClick={()=>{getUserDataAfterLogin(localStorage.getItem('sessionID'))}}
+                      >
                         <IonIcon className="icon my__BG p-1 rounded" icon={cartSharp} style={{fontSize:'1.5rem'}}></IonIcon>
                         <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>My orders</span>
                       </IonLabel>
@@ -238,7 +238,9 @@ const Account: React.FC = () => {
                   </IonAccordion>
                   <IonAccordion value="myDetails">
                     <IonItem slot="header" color="light">
-                      <IonLabel>
+                      <IonLabel 
+                      // onClick={()=>{getUserDataAfterLogin(localStorage.getItem('sessionID'))}}
+                      >
                         <IonIcon className="icon my__BG p-1 rounded" icon={qrCodeSharp} style={{fontSize:'1.5rem'}}></IonIcon>
                         <span className="text-dark text ms-2" style={{fontSize:'0.9rem',fontWeight:'600'}}>My Details</span>
                       </IonLabel>
