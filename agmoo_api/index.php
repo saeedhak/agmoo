@@ -237,6 +237,22 @@ if (!empty($_GET['endPoint'])) {
 
 
         }
+    }elseif($getEndPointData != "" && $getEndPointData === "userDataAfterLogin"){
+        if($getData['sessionId']){
+            $getUserDataAfterLogin = array(
+                'userDetails' => [],
+                'userOrderDetails' =>[] 
+            );
+            $getUserDetails = mysqli_fetch_assoc(mysqli_query($condb, "SELECT * FROM members_reg WHERE user_id = '".$getData['sessionId']."' "));
+            array_push($getUserDataAfterLogin['userDetails'], $getUserDetails);
+            $getUserOrderDetails = mysqli_query($condb, "SELECT ord_confirm_num,subtotal_amount,order_status FROM order_main WHERE user_id = '".$getData['sessionId']."' ");
+                while($data = mysqli_fetch_assoc($getUserOrderDetails)){
+
+                    array_push($getUserDataAfterLogin['userOrderDetails'],$data);
+                }
+
+            array_push($GLOBALS['dataArray'],$getUserDataAfterLogin);
+        }
     }
 
 
@@ -259,21 +275,45 @@ if (!empty($_GET['endPoint'])) {
         }elseif($getData != '' && $getData == 'userRegistration'){
             // check email 
             $checkEmail = mysqli_query($condb,"select user_id from members_reg where email = '".$getFormData['email']."'");
-		if(mysqli_num_rows($checkEmail) > 0){
-            $formResponse = "duplicate";
-		}else{
-            $insertQuery = "insert into members_reg set first_name = '".$getFormData['firstName']."', last_name = '".$getFormData['lastName']."', email = '".$getFormData['email']."', password = '".md5($getFormData['password'])."', password_my = '".$getFormData['password']."', mobile_phone = '".$getFormData['contact']."', bill_city = '".$getFormData['city']."', bill_zipcode = '".$getFormData['zipCode']."', bill_address = '".$getFormData['address']."'";
-			if(mysqli_query($condb,$insertQuery)){
-                $formResponse = "success";
-			}else{
-                $formResponse = "error";
+            if(mysqli_num_rows($checkEmail) > 0){
+                $formResponse = "duplicate";
+            }else{
+                $insertQuery = "insert into members_reg set first_name = '".$getFormData['firstName']."', last_name = '".$getFormData['lastName']."', email = '".$getFormData['email']."', password = '".md5($getFormData['password'])."', password_my = '".$getFormData['password']."', mobile_phone = '".$getFormData['contact']."', bill_city = '".$getFormData['city']."', bill_zipcode = '".$getFormData['zipCode']."', bill_address = '".$getFormData['address']."'";
+                if(mysqli_query($condb,$insertQuery)){
+                    $formResponse = "success";
+                }else{
+                    $formResponse = "error";
+                }
+            } 
+                // $insertQuery = ""
+
+                // send data to global array
+                array_push($GLOBALS['dataArray'],$formResponse);
+
+        }elseif($getData != '' && $getData == 'updateUserForm'){
+            $UPDATE_USER_DETAILS = array(
+                'formResponse' => [],
+                'userData' =>[] 
+            );
+
+            //update user detail 
+            $updateUser_qry = "UPDATE `members_reg` SET
+            `first_name`='".addslashes($getFormData['firstName'])."',
+            `last_name`='".addslashes($getFormData['lastName'])."',
+            `mobile_phone`='".addslashes($getFormData['contact'])."',
+            `bill_city`='".addslashes($getFormData['city'])."',
+            `bill_zipcode`='".addslashes($getFormData['zipCode'])."',
+            `bill_address` ='".addslashes($getFormData['address'])."',
+            `password` ='".md5($getFormData['password'])."',
+            `password_my` ='".addslashes($getFormData['password'])."'
+            WHERE `user_id`='".$getFormData['userId']."' "; 
+            // tun query
+            if(mysqli_query($condb, $updateUser_qry)){
+                $getUserDetails = mysqli_fetch_assoc(mysqli_query($condb, "SELECT * FROM members_reg WHERE user_id = '".$getFormData['userId']."' "));
+                array_push($UPDATE_USER_DETAILS['formResponse'],'update');
+                array_push($UPDATE_USER_DETAILS['userData'],$getUserDetails);
+                array_push($GLOBALS['dataArray'], $UPDATE_USER_DETAILS);
             }
-		} 
-            // $insertQuery = ""
-
-            // send data to global array
-            array_push($GLOBALS['dataArray'],$formResponse);
-
         }
 }else {
 
