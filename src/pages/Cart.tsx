@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   IonContent,
+  IonIcon,
   IonPage,
   useIonAlert
 } from "@ionic/react";
 import Header from "../components/Header";
 import { useHistory   } from "react-router-dom";
 import NoteContext from "../context/MyContext";
+import { trashBinOutline} from 'ionicons/icons';
 const Cart: React.FC = () => {
   // my variable start
     // const variable start
@@ -25,7 +27,7 @@ const Cart: React.FC = () => {
       // useEffect start
         useEffect(()=>{
           getCardData();
-        })
+        },[])
       // useEffect end 
 
       // get card data start
@@ -49,6 +51,7 @@ const Cart: React.FC = () => {
             return response.json();
         })
         .then((data) => {
+            useContextState.updateCartQty(data.sendData.length);
             return setCartData(data.sendData);
         })
       }
@@ -100,10 +103,15 @@ const Cart: React.FC = () => {
                       <div className="col-3 ps-0 pe-0">
                         <div className="row g-0 mt-2">
                             <div className="col-4 ps-0">
-                            <span className="badge my__ROUNDED_PILL_LEFT shadow my__COLOR w-100 pt-2 pb-2" style={{fontSize:"0.9rem"}} 
+                              {data.qty && parseInt(data.qty) > 1 
+                              ? <span className="badge my__ROUNDED_PILL_LEFT shadow my__COLOR w-100 pt-2 pb-2" style={{fontSize:"0.9rem"}} 
+                              onClick={()=>{ countCartFun("remove",data.id)}}>-</span>
+                              :<span className="badge my__ROUNDED_PILL_LEFT shadow my__COLOR w-100 pt-2 pb-2 text-center" style={{fontSize:"0.8rem"}} 
+                              onClick={()=>{ countCartFun("delete",data.id)}}>  <IonIcon icon={trashBinOutline} /> </span>}
+                            {/* <span className="badge my__ROUNDED_PILL_LEFT shadow my__COLOR w-100 pt-2 pb-2" style={{fontSize:"0.9rem"}} 
                             onClick={()=>{ if(parseInt(data.qty) > 1){
                               countCartFun("remove",data.id)
-                            }}}>-</span>
+                            }}}>-</span> */}
                             </div>
                             <div className="col-4">
                                 <span className="badge rounded-5 my__BG w-100 pt-2 pb-2" style={{fontSize:"0.9rem"}}>{data.qty}</span>

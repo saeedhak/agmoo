@@ -31,8 +31,8 @@ export const Header: React.FC = () => {
                                         </IonHeader>
                                     </div>
                                     <div className="col-6">
-                                        <IonCardSubtitle color="primary" style={{ marginTop: "9px", fontSize: "1.3rem", fontWeight: "bolder" }}>AGMOO</IonCardSubtitle>
-                                        <IonCardSubtitle color="primary" style={{ lineHeight: "0px", fontWeight: "300" }}>Store</IonCardSubtitle>
+                                        <IonCardSubtitle style={{ marginTop: "9px", fontSize: "1.3rem", fontWeight: "bolder", color:'red' }}>AGMOO</IonCardSubtitle>
+                                        {/* <IonCardSubtitle color="primary" style={{ lineHeight: "0px", fontWeight: "300" }}>Store</IonCardSubtitle> */}
                                     </div>
                                     <div className="col-4 p-0">
                                         <IonChip color="primary" style={{ marginTop: "12px" }}>
@@ -45,8 +45,8 @@ export const Header: React.FC = () => {
                                 </>
                                 : <>
                                     <div className="col-8 align-left">
-                                        <IonCardSubtitle color="primary" style={{ marginTop: "9px", fontSize: "1.3rem", fontWeight: "bolder",textAlign:"left" }}>AGMOO</IonCardSubtitle>
-                                        <IonCardSubtitle color="primary" style={{ lineHeight: "0px", fontWeight: "300", textAlign:"left" }}>Store</IonCardSubtitle>
+                                        <IonCardSubtitle style={{ marginTop: "9px", fontSize: "1.3rem", fontWeight: "bolder",textAlign:"left", color:'red' }}>AGMOO</IonCardSubtitle>
+                                        {/* <IonCardSubtitle color="primary" style={{ lineHeight: "0px", fontWeight: "300", textAlign:"left" }}>Store</IonCardSubtitle> */}
                                     </div>
                                     <div className="col-4 p-0">
                                         <IonChip color="primary" style={{ marginTop: "12px" }}>

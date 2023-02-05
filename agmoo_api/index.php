@@ -138,7 +138,7 @@ if (!empty($_GET['endPoint'])) {
             INNER JOIN products AS PRD ON C.product_id = PRD.id
             WHERE C.session_id = '".$getData['sessionId']."'  ");
         
-        }elseif($getData['action'] == "add" || $getData['action'] == "remove"){
+        }elseif($getData['action'] == "add" || $getData['action'] == "remove" || $getData['action'] == "delete"){
             $myQuery = "";
             $getCardData =  mysqli_fetch_assoc(mysqli_query($condb, "SELECT * FROM cart WHERE id = '".$getData['cartId']."' "));
            
@@ -148,6 +148,8 @@ if (!empty($_GET['endPoint'])) {
            }elseif($getData['action'] == "remove"){
             $nowCurrentQTY = $getCardData['qty']-1;
             $myQuery = "UPDATE cart SET qty = '".$nowCurrentQTY."' WHERE id = '".$getData['cartId']."' ";
+           }elseif($getData['action'] == "delete"){
+            $myQuery = "DELETE FROM cart WHERE id = '".$getData['cartId']."' ";
            }
 
            if(mysqli_query($condb,$myQuery)){

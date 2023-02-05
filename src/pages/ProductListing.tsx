@@ -161,6 +161,13 @@ const ProductListing: React.FC = () => {
                             setIsOpen(false);
                           },
                         },
+                        {
+                          text: 'Stay this Page',
+                          role: 'cancel',
+                          handler: () => {
+                            setIsOpen(false);
+                          },
+                        },
                       ],
                   })
             }
@@ -276,6 +283,7 @@ const ProductListing: React.FC = () => {
                                         <img
                                             src={`${baseImgUrl}${data.large_img}`}
                                             alt={data.pro_title}
+                                            onClick={() => {getModalData(`index.php?endPoint=product&prdId=${data.id}`); setIsOpen(true)}}
                                         />
                                     </div>
                                 </div>
@@ -322,9 +330,9 @@ const ProductListing: React.FC = () => {
                             <h6 className="my__COLOR mb-2 mt-2" style={{ fontSize: "0.8rem", fontWeight: "500" }}>
                                 {`Rs. ${modalProduct.actual_price}`}
                             </h6>
-                            <h6 className="mb-1" style={{ fontSize: "0.8rem", fontWeight: "600" }}>Pack Size</h6>
-                            <span className="badge rounded-pill my__BG me-2" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Long Size</span>
-                            <span className="badge rounded-pill my__BG" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Small Size</span><br/>
+                            {/* <h6 className="mb-1" style={{ fontSize: "0.8rem", fontWeight: "600" }}>Pack Size</h6> */}
+                            {/* <span className="badge rounded-pill my__BG me-2" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Long Size</span> */}
+                            {/* <span className="badge rounded-pill my__BG" style={{ fontSize: "0.7rem", fontWeight: "500" }}>Small Size</span><br/> */}
                             <span className="badge rounded-5 my__BG pt-2 pb-2 ps-4 pe-4 mt-2" style={{ fontSize: "0.9rem", fontWeight: "400" }}>Quantity : {modalProduct.stock_qty}</span>
                             <h6 className="mb-2 mt-4" style={{ fontSize: "0.8rem", fontWeight: "600" }}>Product Details</h6>
                             <h6 className="text-secondary mt-0" style={{ fontSize: "0.8rem", fontWeight: "400", lineHeight: "20px" }}>{modalProduct.pshort_des}</h6>
@@ -351,6 +359,7 @@ const ProductListing: React.FC = () => {
                                             <img
                                                 src={`${baseImgUrl}${data.large_img}`}
                                                 alt={data.pro_title}
+                                                onClick={() =>{getModalData(`index.php?endPoint=product&prdId=${data.id}`); setIsOpen(true);}}
                                             />
                                         </div>
                                     </div>
