@@ -9,7 +9,7 @@ const NoteState = (props)=>{
     // }
     // use state variable start
         const [stateCartQTY, setStateCartQTY] = useState("0");
-        const [userLoginStatus, setUserLoginStatus] = useState("false");
+        const [userLoginStatus, setUserLoginStatus] = useState(localStorage.getItem('userName') === 'Login'?"false":"true");
     // use state variable end 
 
     // my function start

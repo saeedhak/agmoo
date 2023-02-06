@@ -31,6 +31,14 @@ const Account: React.FC = () => {
     //use state variable end   
   // const variable end
   // my function start
+    // USeFfect start
+    useEffect(()=>{
+      if(useContextState.userLoginStatus === 'true'){
+        getUserDataAfterLogin(localStorage.getItem('sessionID'));
+      }
+    },[])
+    // useEfect end 
+
   const loginFormSubmit = (e:any) => {
     let userSesssionId:any = localStorage.getItem('sessionID');
     e.preventDefault();
