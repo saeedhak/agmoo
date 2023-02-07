@@ -104,6 +104,9 @@ if (!empty($_GET['endPoint'])) {
     }elseif($getEndPointData != "" && $getEndPointData === "product"){
         if($getData['prdId']){
             $sendData = mysqli_query($condb, "SELECT * FROM products WHERE id = '".$getData['prdId']."' ");
+            if($getData['prdImg'] && $getData['prdImg'] == 'Yes' ){
+                $sendData = mysqli_query($condb, "SELECT * FROM products_img WHERE pro_id = '".$getData['prdId']."' ");
+            }
         }else{
 
             $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' ");

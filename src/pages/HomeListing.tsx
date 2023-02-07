@@ -10,7 +10,9 @@ import {
     IonButtons,
     IonButton,
     IonTitle,
-    useIonAlert
+    useIonAlert,
+    IonSlides,
+    IonSlide 
 } from "@ionic/react";
 import Header from "../components/Header";
 import NoteContext from "../context/MyContext";
@@ -26,6 +28,12 @@ const HomeListing: React.FC = () => {
     const baseUrl = "https://agmoo.com/agmoo_api/";
     const endPoint = `index.php?endPoint=${paramsValue.listingName}`;
     const useContextState = useContext(NoteContext);
+        // for slider start
+        const slideOpts = {
+            initialSlide: 1,
+            speed: 400
+        };
+        // for slider end 
     // constant variable end
 
     // use state start
@@ -36,6 +44,7 @@ const HomeListing: React.FC = () => {
     const [cartResponse, setCartResponse] = useState<any>();
     const [countCart, setCountCart] = useState<any>(1);
     const [modalProductQuantity, setModalProductQuantity] = useState<any>();
+    const [getProductDataImg, setProductDataImg] = useState<any>();
     // use state end
 
     // useEffect start
@@ -65,10 +74,25 @@ const HomeListing: React.FC = () => {
       })
       .then((data) => {
         setModalProductQuantity(data.sendData[0].stock_qty)
+        getModalDataProductImg(`${endpointVal}&prdImg=Yes`)
         return setModalProduct(data.sendData[0]);
       })
     };
     // get modal data behalf of product id end 
+    
+        // get modal data product images behalf of product id start
+        const getModalDataProductImg = (endpointVal:any)=>{
+            setCountCart(1);
+            fetch(baseUrl+endpointVal)
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            return setProductDataImg(data.sendData);
+          })
+        };
+        
+        // get modal data product images behalf of product id end 
     // my count cart value function start
     const countCartFun = (actionPerform:any)=>{
         if(actionPerform === "add" && modalProductQuantity > countCart){
@@ -101,7 +125,7 @@ const HomeListing: React.FC = () => {
                 header: 'Product Successfully Add To Cart',
                 buttons: [
                     {
-                      text: 'Go To cart',
+                      text: 'Go To Cart',
                       role: 'conform',
                       handler: () => {
                         history.push("/cart");
@@ -109,7 +133,7 @@ const HomeListing: React.FC = () => {
                       },
                     },
                     {
-                      text: 'Continue Shoping',
+                      text: 'Go To Home',
                       role: 'confirm',
                       handler: () => {
                         history.push("/home");
@@ -280,7 +304,22 @@ const HomeListing: React.FC = () => {
                         </IonHeader>
                         <IonContent className="ion-padding">
                             <div className="w-100 text-center">
-                                <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" />
+                            {getProductDataImg && getProductDataImg.length > 1 
+                            ? 
+                                <IonSlides pager={true} options={slideOpts}>
+                                    {
+                                        getProductDataImg.map((imgData:any,index:any)=>{
+                                            return(
+                                                    <IonSlide key={index}>
+                                                        <img className="img-responsive" src={`${baseImgUrl}${imgData.large_img}`} alt={index} /> 
+                                                    </IonSlide>
+                                            )
+                                        })
+                                    }
+                                </IonSlides>
+                            : 
+                                <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" /> 
+                            }
                             </div>
                             <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{modalProduct.pro_title}</h6>
                             <h6 className="my__COLOR mb-2 mt-2" style={{ fontSize: "0.8rem", fontWeight: "500" }}>
