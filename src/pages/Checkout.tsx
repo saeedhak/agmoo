@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { useHistory  } from "react-router-dom";
 import {
   IonContent,
@@ -8,7 +8,7 @@ import {
   useIonAlert 
 } from "@ionic/react";
 import { locationOutline} from 'ionicons/icons';
-
+import NoteContext from "../context/MyContext";
 import Header from "../components/Header";
 
 const Checkout: React.FC = () => {
@@ -18,6 +18,7 @@ const Checkout: React.FC = () => {
         const endPoint = `index.php?endPoint=`;
         const [presentAlert] = useIonAlert();
         const history = useHistory();
+        const useContextState = useContext(NoteContext);
         // my const variable end 
 
         // use state variable start
@@ -29,7 +30,7 @@ const Checkout: React.FC = () => {
     // useEffect function start
         useEffect(()=>{
             getCheckoutData();  
-        })
+        },[])
     // useEffect function end 
     // get checkout data function start
     const getCheckoutData = ()=>{
@@ -55,7 +56,7 @@ const Checkout: React.FC = () => {
             .then((data) => {
                 // console.log(data.sendData[0]);
                 if(data.sendData[0].response === "done"){
-                    localStorage.setItem('CartQty','0');
+                    useContextState.updateCartQty("0");
                     presentAlert({
                         header: 'Your Order Successfully submit ',
                         subHeader:`Order Number is ${data.sendData[0].orderId}`,

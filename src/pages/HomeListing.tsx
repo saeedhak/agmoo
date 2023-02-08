@@ -50,7 +50,7 @@ const HomeListing: React.FC = () => {
     // useEffect start
     useEffect(()=>{
         getHomeListingData(endPoint);
-    },[setHomeListingData]);
+    },[paramsValue]);
     // useEffect end
 
     // my function start

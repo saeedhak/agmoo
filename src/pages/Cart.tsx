@@ -27,10 +27,9 @@ const Cart: React.FC = () => {
       // useEffect start
         useEffect(()=>{
           getCardData();
-        },[])
+        },[useContextState.stateCartQTY])
       // useEffect end 
-
-      // get card data start
+        // get card data start
     const getCardData = ()=>{
       let sessionID = localStorage.getItem('sessionID');
       fetch(`${baseUrl}${endPoint}cart&sessionId=${sessionID}&action=cardData`)
@@ -43,6 +42,7 @@ const Cart: React.FC = () => {
         })
     }
     // get card data end
+
     // start countCartFun => add or remove qty 
       const countCartFun = (actionPerform:any,cartId:any)=>{
         let sessionID = localStorage.getItem('sessionID');
@@ -80,7 +80,7 @@ const Cart: React.FC = () => {
   // my variable end 
 
   // my try area start
-  console.log(cartData);
+  // console.log(cartData);
   // my try area end 
   return (
     <IonPage>
