@@ -6,7 +6,7 @@
 /.pnp
 .pnp.js
 /agmoo_api/error_log
-
+/resources
 
 # testing
 /coverage
