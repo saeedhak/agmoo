@@ -2,6 +2,7 @@ import React, { useState, useEffect,useContext } from "react";
 import Header from "../components/Header";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Link , useParams, useHistory   } from "react-router-dom";
+import { App } from '@capacitor/app';
 import {
     IonContent,
     IonPage,
@@ -54,6 +55,7 @@ const ProductListing: React.FC = () => {
 
     // useEffect start
     useEffect(()=>{
+        setIsOpen(false);
         setActiveId(paramsValue.id);
         getModuleData(paramsValue.modelName);
         getListingProductData(paramsValue.modelName, paramsValue.id );
@@ -198,6 +200,12 @@ const ProductListing: React.FC = () => {
           })
         }
         // my add to cart function end 
+        // hardware back button start
+            App.addListener('backButton', () => {
+                console.log('App opened with URL:');
+                setIsOpen(false);
+              })
+        // hardware back button end 
     // my function end 
 
     // test area start

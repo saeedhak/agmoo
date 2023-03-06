@@ -40,7 +40,7 @@ const Checkout: React.FC = () => {
                 return response.json();
             })
             .then((data) => {
-                console.log(data.sendData[0]);
+                // console.log(data.sendData[0]);
                 setAddress(data.sendData[0].address[0]);
                 setCartTotalPrice(data.sendData[0].cartSubtotal[0]);
             })

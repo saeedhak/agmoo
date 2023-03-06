@@ -361,5 +361,16 @@ http://ionicframework.com/docs/theming/ */
      display: inline-block;
      vertical-align: middle;
    }
+   .orderItem .ion-accordion-toggle-icon{
+    margin-right: 5px !important;
+   }
+   .orderItem .ion-accordion-toggle-icon{
+    font-size: 40px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+  }
+  .orderItem button{
+    padding-left: 0px !important;
+  }
    
 /* custom css End */

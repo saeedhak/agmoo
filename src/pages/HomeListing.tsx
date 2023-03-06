@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext} from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { App } from '@capacitor/app';
 import {
     IonContent,
     IonPage,
@@ -154,10 +155,16 @@ const HomeListing: React.FC = () => {
       })
     }
     // my add to cart function end 
+    // hardware back button start
+    App.addListener('backButton', () => {
+        console.log('App opened with URL:');
+        setIsOpen(false);
+      })
+// hardware back button end 
     // my function end 
 
     // my console start
-        console.log(modalProduct);
+        // console.log(modalProduct);
     // my console end
     return (
         <IonPage>

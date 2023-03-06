@@ -11,13 +11,14 @@ import {
   IonIcon,
   IonBadge 
 } from "@ionic/react";
-import { cartSharp,qrCodeSharp, locateSharp, cashSharp, logOutSharp } from 'ionicons/icons';
+import { cartSharp,qrCodeSharp, locateSharp, cashSharp, logOutSharp, caretDownCircle  } from 'ionicons/icons';
 import Header from "../components/Header";
 import NoteContext from "../context/MyContext";
 
 const Account: React.FC = () => {
   // const variable start
   const loginForm:any = useRef(null);
+  const baseImgUrl = "https://agmoo.com/";
   const baseUrl = "https://agmoo.com/agmoo_api/";
   const endPoint = `index.php?endPoint=`;
   const history = useHistory();
@@ -28,6 +29,7 @@ const Account: React.FC = () => {
     const [getUserDetails, setUserDetails] = useState<any>();
     const [getUserOrderDetails, setUserOrderDetails] = useState<any>();
     const [userFormValue, setUserFormValue] = useState<any>();
+    const [getOrderDetailsItemData, setOrderDetailsItemData] = useState<any>();
     //use state variable end   
   // const variable end
   // my function start
@@ -36,7 +38,7 @@ const Account: React.FC = () => {
       if(useContextState.userLoginStatus === 'true'){
         getUserDataAfterLogin(localStorage.getItem('sessionID'));
       }
-    },[])
+    },[useContextState.stateCartQTY])
     // useEfect end 
 
   const loginFormSubmit = (e:any) => {
@@ -193,12 +195,25 @@ const Account: React.FC = () => {
   };
   // getUserUpdatedFormDetail end
   // user detail form submit
+  // get order detail item data start
+    const getOrderDetailsItem = (orderId:any)=>{
+        fetch(`${baseUrl}${endPoint}orderDetailsItem&orderId=${orderId}`)
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          console.log(data.sendData[0].userOrderDetailsItem);
+          setOrderDetailsItemData(data.sendData[0].userOrderDetailsItem);
+        });
+      // }
+    }
+  // get order detail item data end
   // my function end 
 
   // try area start
   // console.log(formResponse);
   // console.log(getUserDetails[0].bill_address);
-  // console.log(getUserOrderDetails);
+  console.log(getUserOrderDetails);
   // try area end 
   return (
     <IonPage>
@@ -234,6 +249,48 @@ const Account: React.FC = () => {
                                       <div className="col-4">
                                         <h6 className="mt-0 mb-0" style={{fontSize:'0.7rem'}}>Status</h6>
                                         <IonBadge slot="start">{data.order_status}</IonBadge>
+                                      </div>
+                                      <div className="col-12 orderItem pt-3">
+                                        <IonAccordionGroup>
+                                          <IonAccordion value={data.ord_confirm_num} toggleIcon={caretDownCircle} toggleIconSlot="start" onClick={()=>{getOrderDetailsItem(data.id)}}>
+                                            <IonItem slot="header" color="light" className="rounded-pill">
+                                              <IonLabel className="mt-0 mb-0">
+                                                  <span className="text-dark" style={{fontSize:'0.8rem',fontWeight:'600'}}>
+                                                    View Order Item Details
+                                                  </span>
+                                                </IonLabel>
+                                            </IonItem>
+                                            <div className="ion-padding" slot="content">
+                                              <div className="row">
+                                              {
+                                                getOrderDetailsItemData?.map((data:any, index:any)=>{
+                                                  return(
+                                                    <>
+                                                    <div className="col-12 card border-0 border-bottom my__BG mt-2" key={index}>
+                                                      <div className="card-body p-0 pt-2 pb-2">
+                                                        <div className="row">
+                                                          <div className="col-3">
+                                                            <img className="h-100 w-100" style={{objectFit:"cover"}} src={`${baseImgUrl}${data.large_img}`} alt={data.pro_title} />
+                                                          </div>
+                                                          <div className="col-9 ps-0 pe-0">
+                                                            <p className="text-dark text-white mb-0" style={{fontSize:"0.7rem", lineHeight:"12px", fontWeight:"400"}}>
+                                                              Title : <span style={{fontWeight:"600"}}>{data.pro_title}</span></p>
+                                                            <p className="text-white mb-0" style={{fontSize:"0.7rem", fontWeight:"400",lineHeight:"12px"}}>
+                                                               Rs: <span style={{fontWeight:"600"}}>{data.total_price}</span></p>
+                                                            <p className="text-white mb-0" style={{fontSize:"0.7rem", fontWeight:"400",lineHeight:"12px"}}> 
+                                                              Qty: <span style={{fontWeight:"600"}}>{data.prod_qty}</span></p>
+                                                          </div>
+                                                        </div>
+                                                      </div>
+                                                    </div>
+                                                    </>
+                                                  )
+                                                })
+                                              }
+                                              </div>
+                                            </div>
+                                          </IonAccordion>
+                                        </IonAccordionGroup>
                                       </div>
                                     </div>
                                   </div>

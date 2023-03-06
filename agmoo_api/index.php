@@ -250,7 +250,7 @@ if (!empty($_GET['endPoint'])) {
             );
             $getUserDetails = mysqli_fetch_assoc(mysqli_query($condb, "SELECT * FROM members_reg WHERE user_id = '".$getData['sessionId']."' "));
             array_push($getUserDataAfterLogin['userDetails'], $getUserDetails);
-            $getUserOrderDetails = mysqli_query($condb, "SELECT ord_confirm_num,subtotal_amount,order_status FROM order_main WHERE user_id = '".$getData['sessionId']."' ");
+            $getUserOrderDetails = mysqli_query($condb, "SELECT id, ord_confirm_num,subtotal_amount,order_status FROM order_main WHERE user_id = '".$getData['sessionId']."' ");
                 while($data = mysqli_fetch_assoc($getUserOrderDetails)){
 
                     array_push($getUserDataAfterLogin['userOrderDetails'],$data);
@@ -258,6 +258,19 @@ if (!empty($_GET['endPoint'])) {
 
             array_push($GLOBALS['dataArray'],$getUserDataAfterLogin);
         }
+    }elseif($getEndPointData != "" && $getEndPointData === "orderDetailsItem"){
+            $getOrderDetailsItem = array(
+                'userOrderDetailsItem' =>[] 
+            );
+            $getUserOrderDetailsItem = mysqli_query($condb, "SELECT PRD.*, OD.prod_qty, OD.total_price FROM order_detail AS OD 
+            INNER JOIN products AS PRD ON OD.prod_id = PRD.id 
+            WHERE OD.orderid = '".$getData['orderId']."' ");
+                while($data = mysqli_fetch_assoc($getUserOrderDetailsItem)){
+
+                    array_push($getOrderDetailsItem['userOrderDetailsItem'],$data);
+                }
+
+            array_push($GLOBALS['dataArray'],$getOrderDetailsItem);
     }
 
 
