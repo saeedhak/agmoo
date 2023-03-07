@@ -13,7 +13,8 @@ import {
     IonTitle,
     useIonAlert,
     IonSlides,
-    IonSlide 
+    IonSlide,
+    IonSearchbar 
 } from "@ionic/react";
 import Header from "../components/Header";
 import NoteContext from "../context/MyContext";
@@ -46,6 +47,8 @@ const HomeListing: React.FC = () => {
     const [countCart, setCountCart] = useState<any>(1);
     const [modalProductQuantity, setModalProductQuantity] = useState<any>();
     const [getProductDataImg, setProductDataImg] = useState<any>();
+    const [mainData, setMainData] = useState<any>();
+    const [searchInput, setSearchInput] = useState<any>();
     // use state end
 
     // useEffect start
@@ -63,6 +66,7 @@ const HomeListing: React.FC = () => {
       })
       .then((data) => {
         setBoxLoder(true);
+        setMainData(data.sendData);
         return setHomeListingData(data.sendData);
       })
     };
@@ -161,10 +165,24 @@ const HomeListing: React.FC = () => {
         setIsOpen(false);
       })
 // hardware back button end 
+    //   for search filter start
+    const searchItems = (searchValue:any) => {
+        setSearchInput(searchValue)
+        if (searchValue && searchValue !== '') {
+            const filteredData = mainData.filter((item:any) => {
+                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            })
+            setHomeListingData(filteredData)
+        }
+        else{
+            setHomeListingData(mainData);
+        }
+    }
+    //   for search filter end 
     // my function end 
 
     // my console start
-        // console.log(modalProduct);
+        // console.log(HomeListingData);
     // my console end
     return (
         <IonPage>
@@ -191,8 +209,14 @@ const HomeListing: React.FC = () => {
                         </Link>
                         </div>
                     </div>
-
-                    <div className="row pt-5">
+                    {/*  */}
+                    <div className="row">
+                        <div className="col-12">
+                            <IonSearchbar className="my__BOX_RADIUS" placeholder="Search Here" onIonChange={(ev:any) => searchItems(ev.target.value)}></IonSearchbar>
+                        </div>
+                    </div>
+                    {/*  */}
+                    <div className="row pt-3">
                         <div className="col-12">
                             <div className="row g-3">
                                 {boxLoder? HomeListingData?.map((data:any, index:any) => {

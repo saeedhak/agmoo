@@ -14,7 +14,8 @@ import {
     IonTitle,
     useIonAlert,
     IonSlides,
-    IonSlide 
+    IonSlide,
+    IonSearchbar 
 } from "@ionic/react";
 
 // Import Swiper styles
@@ -50,6 +51,8 @@ const ProductListing: React.FC = () => {
     const [cartResponse, setCartResponse] = useState<any>();
     const [modalProductQuantity, setModalProductQuantity] = useState<any>();
     const [getProductDataImg, setProductDataImg] = useState<any>();
+    const [mainData, setMainData] = useState<any>();
+    const [searchInput, setSearchInput] = useState<any>();
 
     // use start variable end
 
@@ -108,6 +111,7 @@ const ProductListing: React.FC = () => {
                         return response.json();
                     })
                     .then((data) => {
+                                setMainData(data.sendData);
                         return setProductListingData(data.sendData);
                     })
 
@@ -206,6 +210,21 @@ const ProductListing: React.FC = () => {
                 setIsOpen(false);
               })
         // hardware back button end 
+        
+    //   for search filter start
+    const searchItems = (searchValue:any) => {
+        setSearchInput(searchValue)
+        if (searchValue && searchValue !== '') {
+            const filteredData = mainData.filter((item:any) => {
+                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
+            })
+            setProductListingData(filteredData)
+        }
+        else{
+            setProductListingData(mainData);
+        }
+    }
+    //   for search filter end 
     // my function end 
 
     // test area start
@@ -301,8 +320,15 @@ const ProductListing: React.FC = () => {
                     </div>
                 </div>
                 {/* product view  */}
-                <div className="container bg-white pt-4 pb-2">
+                <div className="container bg-white pt-2 pb-2">
+                    {/*  */}
                     <div className="row">
+                        <div className="col-12">
+                            <IonSearchbar className="my__BOX_RADIUS" placeholder="Search Here" onIonChange={(ev:any) => searchItems(ev.target.value)}></IonSearchbar>
+                        </div>
+                    </div>
+                    {/*  */}
+                    <div className="row pt-2">
                         <div className="col-12">
                             <div className="row gy-4">
                                 {productListingData?.map((data:any, index:any)=>{

@@ -372,5 +372,8 @@ http://ionicframework.com/docs/theming/ */
   .orderItem button{
     padding-left: 0px !important;
   }
-   
+  /* for search bar */
+  .searchbar-input.sc-ion-searchbar-md{
+    border-radius: 20px !important;
+  }
 /* custom css End */
