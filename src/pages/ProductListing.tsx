@@ -173,31 +173,31 @@ const ProductListing: React.FC = () => {
                 useContextState.updateCartQty(parseInt(useContextState.stateCartQTY)+1);
                 presentAlert({
                     header: 'Product Successfully Add To Cart',
-                    buttons: [
-                        {
-                          text: 'Go To Cart',
-                          role: 'conform',
-                          handler: () => {
-                            history.push("/cart");
-                            setIsOpen(false);
-                          },
-                        },
-                        {
-                          text: 'Go To Home',
-                          role: 'confirm',
-                          handler: () => {
-                            history.push("/home");
-                            setIsOpen(false);
-                          },
-                        },
-                        {
-                          text: 'Stay this Page',
-                          role: 'cancel',
-                          handler: () => {
-                            setIsOpen(false);
-                          },
-                        },
-                      ],
+                    // buttons: [
+                    //     {
+                    //       text: 'Go To Cart',
+                    //       role: 'conform',
+                    //       handler: () => {
+                    //         history.push("/cart");
+                    //         setIsOpen(false);
+                    //       },
+                    //     },
+                    //     {
+                    //       text: 'Go To Home',
+                    //       role: 'confirm',
+                    //       handler: () => {
+                    //         history.push("/home");
+                    //         setIsOpen(false);
+                    //       },
+                    //     },
+                    //     {
+                    //       text: 'Stay this Page',
+                    //       role: 'cancel',
+                    //       handler: () => {
+                    //         setIsOpen(false);
+                    //       },
+                    //     },
+                    //   ],
                   })
             }
             return setCartResponse(data.sendData[0].cartResponse);
@@ -398,7 +398,8 @@ const ProductListing: React.FC = () => {
                                 <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" /> 
                             }
                             </div>
-                            <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{modalProduct.pro_title}</h6>
+                            {/* <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{modalProduct.pro_title}</h6> */}
+                            <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{`${modalProduct.pro_title} ${modalProduct.market_retail_price && modalProduct.market_retail_price > 0 ? ', MRP: RS. '+modalProduct.market_retail_price : ''} `}</h6>
                             <h6 className="my__COLOR mb-2 mt-2" style={{ fontSize: "0.8rem", fontWeight: "500" }}>
                                 {`Rs. ${modalProduct.actual_price}`}
                             </h6>

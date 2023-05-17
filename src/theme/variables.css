@@ -344,10 +344,11 @@ http://ionicframework.com/docs/theming/ */
     position: absolute;
     left: 40px;
     right: 0px;
-    top: 2px;
+    top: 10px;
     bottom: 0;
     font-size: 11px;
     font-weight: 700;
+    animation: slide 2.1s ease-in-out infinite;
   }
 
   .icon {
@@ -377,3 +378,18 @@ http://ionicframework.com/docs/theming/ */
     border-radius: 20px !important;
   }
 /* custom css End */
+
+@keyframes slide {
+  0% {
+    transform: scale(0)
+    /* transform: translateX(10px) */
+  }
+  50% {
+    transform: scale(2)
+    /* transform: translateX(-10px) */
+  }
+  100% {
+    transform: scale(0)
+    /* transform: translateX(10px) */
+  }
+}

@@ -1,5 +1,6 @@
 import React from "react";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
+
 import {
     IonButtons,
     IonHeader,
@@ -35,12 +36,14 @@ export const Header: React.FC = () => {
                                         {/* <IonCardSubtitle color="primary" style={{ lineHeight: "0px", fontWeight: "300" }}>Store</IonCardSubtitle> */}
                                     </div>
                                     <div className="col-4 p-0">
-                                        <IonChip color="primary" style={{ marginTop: "12px" }}>
-                                            <IonAvatar>
-                                                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                            </IonAvatar>
-                                            <IonLabel style={{ fontSize: '.8rem' }}>{localStorage.getItem('userName')}</IonLabel>
-                                        </IonChip>
+                                        <Link to="/account" style={{ textDecoration: "none" }}>
+                                            <IonChip color="primary" style={{ marginTop: "12px" }}>
+                                                <IonAvatar>
+                                                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                                </IonAvatar>
+                                                <IonLabel style={{ fontSize: '.8rem' }}>{localStorage.getItem('userName')}</IonLabel>
+                                            </IonChip>
+                                        </Link>
                                     </div>
                                 </>
                                 : <>
@@ -49,12 +52,14 @@ export const Header: React.FC = () => {
                                         {/* <IonCardSubtitle color="primary" style={{ lineHeight: "0px", fontWeight: "300", textAlign:"left" }}>Store</IonCardSubtitle> */}
                                     </div>
                                     <div className="col-4 p-0">
-                                        <IonChip color="primary" style={{ marginTop: "12px" }}>
-                                            <IonAvatar>
-                                                <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                            </IonAvatar>
-                                            <IonLabel style={{ fontSize: '.8rem' }}>{localStorage.getItem('userName')}</IonLabel>
-                                        </IonChip>
+                                        <Link to="/account" style={{ textDecoration: "none" }}>
+                                            <IonChip color="primary" style={{ marginTop: "12px" }}>
+                                                <IonAvatar>
+                                                    <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                                </IonAvatar>
+                                                <IonLabel style={{ fontSize: '.8rem' }}>{localStorage.getItem('userName')}</IonLabel>
+                                            </IonChip>
+                                        </Link>
                                     </div>
                                 </>}
                         </div>
