@@ -112,6 +112,12 @@ if (!empty($_GET['endPoint'])) {
             $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' ");
 
         }
+    }elseif($getEndPointData != "" && $getEndPointData === "FeatureProduct"){
+            $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' AND feature_status = 'Yes' ");
+    }elseif($getEndPointData != "" && $getEndPointData === "BestSellerProduct"){
+        $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' AND new_arrival = 'Yes' ");
+    }elseif($getEndPointData != "" && $getEndPointData === "NewArrivalProduct"){
+        $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' AND new_prods = 'Yes' ");
     }elseif($getEndPointData != "" && $getEndPointData === "addToCart"){
 
         if($getData['action'] == "insert"){
@@ -271,6 +277,10 @@ if (!empty($_GET['endPoint'])) {
                 }
 
             array_push($GLOBALS['dataArray'],$getOrderDetailsItem);
+
+    }elseif($getEndPointData != "" && $getEndPointData === "getAllBanner"){
+
+        $sendData = mysqli_query($condb, "SELECT * FROM sliders_img WHERE status = 'Yes' ");
     }
 
 
