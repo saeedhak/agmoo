@@ -561,8 +561,8 @@ const addToCart = (productId:any)=>{
                                 <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" /> 
                             }
                             {modalProduct.hot_prods === 'Yes'? <span className="card rounded-pill text-danger p-1" style={{position:'absolute',bottom: '2%',right: '2%',zIndex:'9999'}}>
-                                                          <IonIcon icon={flameSharp} style={{fontSize:'35px'}} />
-                                                        </span>:''}
+                                <IonIcon icon={flameSharp} style={{fontSize:'35px'}} />
+                              </span>:''}
                             </div>
                             <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{`${modalProduct.pro_title} ${modalProduct.market_retail_price && modalProduct.market_retail_price > 0 ? ', MRP: RS. '+modalProduct.market_retail_price : ''} `}</h6>
                             <h6 className="my__COLOR mb-2 mt-2" style={{ fontSize: "0.8rem", fontWeight: "500" }}>

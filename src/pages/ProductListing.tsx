@@ -15,12 +15,14 @@ import {
     useIonAlert,
     IonSlides,
     IonSlide,
-    IonSearchbar 
+    IonSearchbar,
+    IonIcon 
 } from "@ionic/react";
 
 // Import Swiper styles
 import "swiper/css";
 import NoteContext from "../context/MyContext";
+import { flameSharp} from 'ionicons/icons';
 
 const ProductListing: React.FC = () => {
     // my const variable start
@@ -380,7 +382,7 @@ const ProductListing: React.FC = () => {
                             </IonToolbar>
                         </IonHeader>
                         <IonContent className="ion-padding">
-                            <div className="w-100 text-center">
+                            <div className="w-100 text-center" style={{position:'relative'}}>
                             {getProductDataImg && getProductDataImg.length > 1 
                             ? 
                                 <IonSlides pager={true} options={slideOpts}>
@@ -397,6 +399,9 @@ const ProductListing: React.FC = () => {
                             : 
                                 <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" /> 
                             }
+                            {modalProduct.hot_prods === 'Yes'? <span className="card rounded-pill text-danger p-1" style={{position:'absolute',bottom: '2%',right: '2%',zIndex:'9999'}}>
+                                <IonIcon icon={flameSharp} style={{fontSize:'35px'}} />
+                              </span>:''}
                             </div>
                             {/* <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{modalProduct.pro_title}</h6> */}
                             <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{`${modalProduct.pro_title} ${modalProduct.market_retail_price && modalProduct.market_retail_price > 0 ? ', MRP: RS. '+modalProduct.market_retail_price : ''} `}</h6>
