@@ -13,10 +13,12 @@ import {
   IonButtons,
   IonButton,
   IonTitle,
+  IonIcon
 } from "@ionic/react";
 import { Link } from "react-router-dom";
 import Header from "../components/Header";
 import NoteContext from "../context/MyContext";
+import { flameSharp} from 'ionicons/icons';
 const Tab1: React.FC = () => {
   const useContextState = useContext(NoteContext);
   // my global variable start
@@ -33,6 +35,7 @@ const Tab1: React.FC = () => {
       // useState variable start
       const [HomeBanner, setHomeBanner] = useState<any>();
       const [FeatureProduct, setFeatureProduct] = useState<any>();
+      const [HotProduct, setHotProduct] = useState<any>();
       const [BestSellerProduct, seBestSellerProduct] = useState<any>();
       const [NewArrivalProduct, setBestSellerProduct] = useState<any>();
       const [countCart, setCountCart] = useState<any>(1);
@@ -52,6 +55,7 @@ const Tab1: React.FC = () => {
         getFeatureProduct();
         getBestSellerProduct();
         getNewArrivalProduct();
+        getHotProduct();
     },[]);
   // useEffect end
 
@@ -67,6 +71,9 @@ const Tab1: React.FC = () => {
     }else if(clickSection === 'bestSeller'){
       setClickSectionState('bestSeller');
       setHomeListingData(NewArrivalProduct);
+    }else if(clickSection === 'hot'){
+      setClickSectionState('hot');
+      setHomeListingData(HotProduct);
     }
     setCountCart(1);
     fetch(baseUrl+endpointVal)
@@ -181,6 +188,19 @@ const addToCart = (productId:any)=>{
     })
   };
     // get all new arrival product end
+
+    // get all hot product start
+    const getHotProduct = ()=>{
+      const endPoint = "index.php?endPoint=HotProduct";
+      fetch(baseUrl+endPoint)
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      return setHotProduct(data.sendData);
+    })
+  };
+    // get all hot product end
 
     // hardware back button start
     App.addListener('backButton', () => {
@@ -456,6 +476,59 @@ const addToCart = (productId:any)=>{
           </div>
           </div>
           {/* new arrival product end  */}
+
+          {/* Hot product start */}
+          <div className="card shadow mt-3 mb-3 my__BOX_RADIUS_10">
+            <div className="card-body p-2">
+              <h6 className="my__headTitle mt-2 mb-1">Hot Product</h6>
+              <h6 className="my__headSubTitle mb-4 mt-0">This is all my Hot product slide it for best</h6>
+          <div className="row g-0">
+          <Swiper
+            spaceBetween={10}
+            slidesPerView={3}
+            className="my__headSubTitle"
+          >
+            {HotProduct?.map((data:any, index:any)=>{
+              return(
+              <SwiperSlide key={index}>
+                <div className="col-4 w-100 pt-2 pb-2" style={{ position: "relative" }}>
+                    <div className="card rounded-5 my__BOX_RADIUS_10">
+                        <div className="card-body">
+                            <img className="w-100"
+                                src={`${baseImgUrl}${data.large_img}`}
+                                alt={data.pro_title}
+                                onClick={() =>{getModalData(`index.php?endPoint=product&prdId=${data.id}`,'hot'); setIsOpen(true);}}
+                            style={{height:'70px',objectFit: 'fill'}}/>
+                        </div>
+                    </div>
+                    <h6
+                        className="my__COLOR mb-2 mt-2"
+                        style={{ fontSize: "0.8rem", fontWeight: "400" }}
+                    >
+                        {`Rs. ${data.actual_price}`}
+                    </h6>
+                    <p
+                        className="text-dark"
+                        style={{
+                            fontSize: "0.7rem",
+                            fontWeight: "600",
+                            lineHeight: "15px",
+                        }}
+                    >
+                        {data.pro_title}
+                    </p>
+                    <span className="my__PRODUCT_SLIDER_BADGE" onClick={() =>{getModalData(`index.php?endPoint=product&prdId=${data.id}`,'hot'); setIsOpen(true);}} style={{top:0}}>+</span>
+                </div>
+              </SwiperSlide>
+              )
+            })}
+
+
+          </Swiper>
+          </div>
+          </div>
+          </div>
+          {/* new arrival product end  */}
         </div>
         {/* for product modal start */}
         <>
@@ -470,7 +543,7 @@ const addToCart = (productId:any)=>{
                             </IonToolbar>
                         </IonHeader>
                         <IonContent className="ion-padding">
-                            <div className="w-100 text-center">
+                            <div className="w-100 text-center" style={{position:'relative'}}>
                             {getProductDataImg && getProductDataImg.length > 1 
                             ? 
                                 <IonSlides pager={true} options={slideOpts}>
@@ -487,6 +560,9 @@ const addToCart = (productId:any)=>{
                             : 
                                 <img className="w-50" src={`${baseImgUrl}${modalProduct.large_img}`} alt="img" /> 
                             }
+                            {modalProduct.hot_prods === 'Yes'? <span className="card rounded-pill text-danger p-1" style={{position:'absolute',bottom: '2%',right: '2%',zIndex:'9999'}}>
+                                                          <IonIcon icon={flameSharp} style={{fontSize:'35px'}} />
+                                                        </span>:''}
                             </div>
                             <h6 className="pt-2" style={{ fontSize: "0.8rem", fontWeight: "600" }}>{`${modalProduct.pro_title} ${modalProduct.market_retail_price && modalProduct.market_retail_price > 0 ? ', MRP: RS. '+modalProduct.market_retail_price : ''} `}</h6>
                             <h6 className="my__COLOR mb-2 mt-2" style={{ fontSize: "0.8rem", fontWeight: "500" }}>

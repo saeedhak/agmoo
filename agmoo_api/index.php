@@ -118,6 +118,8 @@ if (!empty($_GET['endPoint'])) {
         $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' AND new_arrival = 'Yes' ");
     }elseif($getEndPointData != "" && $getEndPointData === "NewArrivalProduct"){
         $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' AND new_prods = 'Yes' ");
+    }elseif($getEndPointData != "" && $getEndPointData === "HotProduct"){
+        $sendData = mysqli_query($condb, "SELECT * FROM products WHERE status = 'Yes' AND hot_prods = 'Yes' ");
     }elseif($getEndPointData != "" && $getEndPointData === "addToCart"){
 
         if($getData['action'] == "insert"){
