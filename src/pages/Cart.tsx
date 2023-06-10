@@ -6,7 +6,7 @@ import {
   useIonAlert
 } from "@ionic/react";
 import Header from "../components/Header";
-import { useHistory   } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import NoteContext from "../context/MyContext";
 import { trashBinOutline} from 'ionicons/icons';
 const Cart: React.FC = () => {

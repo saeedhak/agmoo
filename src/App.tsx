@@ -21,6 +21,8 @@ import Checkout from './pages/Checkout';
 import NoteState from './context/MyContextState';
 import NoteContext from "./context/MyContext";
 import CartTabBody from "./components/CartTabBody";
+import Orders from './pages/Orders';
+import OrdersItem from './pages/OrdersItem';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 
@@ -96,6 +98,12 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/checkout">
             <Checkout/>
+          </Route>
+          <Route exact path="/my-orders">
+            <Orders/>
+          </Route>
+          <Route exact path="/my-order/:orderNum">
+            <OrdersItem/>
           </Route>
         </IonRouterOutlet>
         <IonTabBar className='shadow border rounded-pill' slot="bottom">

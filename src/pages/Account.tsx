@@ -233,79 +233,13 @@ const Account: React.FC = () => {
                   <IonAccordionGroup>
                     <IonAccordion value="myOrders"className="my__BOX_RADIUS mb-3">
                       <IonItem slot="header" color="light">
-                        <IonLabel className="p-2"
-                        // onClick={()=>{getUserDataAfterLogin(localStorage.getItem('sessionID'))}}
-                        >
-                          <IonIcon className="icon my__BG p-1 rounded" icon={cartSharp} style={{ fontSize: '1.5rem' }}></IonIcon>
-                          <span className="text-dark text ms-2" style={{ fontSize: '0.9rem', fontWeight: '600' }}>My orders</span>
-                        </IonLabel>
+                        <Link to="/my-orders" style={{ textDecoration: "none" }} className="w-100 d-block">
+                          <IonLabel className="p-2">
+                            <IonIcon className="icon my__BG p-1 rounded" icon={cartSharp} style={{ fontSize: '1.5rem' }}></IonIcon>
+                            <span className="text-dark text ms-2" style={{ fontSize: '0.9rem', fontWeight: '600' }}>My orders</span>
+                          </IonLabel>
+                        </Link>
                       </IonItem>
-                      <div className="ion-padding" slot="content">
-                        <div className="row">
-                          {getUserOrderDetails?.map((data: any, index: any) => {
-                            return (
-                              <>
-                                <div className="col-12 p-2" key={index}>
-                                  <div className="card p-3 shadow my__BOX_RADIUS">
-                                    <div className="row">
-                                      <div className="col-8">
-                                        <h6 className="mb-0 mt-0" style={{ fontSize: '0.7rem' }}>Order Number: <span className="my__COLOR">{data.ord_confirm_num}</span></h6>
-                                        <h6 className="mb-0 mt-0" style={{ fontSize: '0.7rem' }}>Order Amount: <span className="my__COLOR">{data.subtotal_amount}</span></h6>
-                                      </div>
-                                      <div className="col-4">
-                                        <h6 className="mt-0 mb-0" style={{ fontSize: '0.7rem' }}>Status</h6>
-                                        <IonBadge slot="start">{data.order_status}</IonBadge>
-                                      </div>
-                                      <div className="col-12 orderItem pt-3">
-                                        <IonAccordionGroup>
-                                          <IonAccordion value={data.ord_confirm_num} toggleIcon={caretDownCircle} toggleIconSlot="start" onClick={() => { getOrderDetailsItem(data.id) }}>
-                                            <IonItem slot="header" color="light" className="rounded-pill">
-                                              <IonLabel className="mt-0 mb-0">
-                                                <span className="text-dark" style={{ fontSize: '0.8rem', fontWeight: '600' }}>
-                                                  View Order Item Details
-                                                </span>
-                                              </IonLabel>
-                                            </IonItem>
-                                            <div className="ion-padding" slot="content">
-                                              <div className="row">
-                                                {
-                                                  getOrderDetailsItemData?.map((data: any, index: any) => {
-                                                    return (
-                                                      <>
-                                                        <div className="col-12 card border-0 border-bottom my__BG mt-2" key={index}>
-                                                          <div className="card-body p-0 pt-2 pb-2">
-                                                            <div className="row">
-                                                              <div className="col-3">
-                                                                <img className="h-100 w-100" style={{ objectFit: "cover" }} src={`${baseImgUrl}${data.large_img}`} alt={data.pro_title} />
-                                                              </div>
-                                                              <div className="col-9 ps-0 pe-0">
-                                                                <p className="text-dark text-white mb-0" style={{ fontSize: "0.7rem", lineHeight: "12px", fontWeight: "400" }}>
-                                                                  Title : <span style={{ fontWeight: "600" }}>{data.pro_title}</span></p>
-                                                                <p className="text-white mb-0" style={{ fontSize: "0.7rem", fontWeight: "400", lineHeight: "12px" }}>
-                                                                  Rs: <span style={{ fontWeight: "600" }}>{data.total_price}</span></p>
-                                                                <p className="text-white mb-0" style={{ fontSize: "0.7rem", fontWeight: "400", lineHeight: "12px" }}>
-                                                                  Qty: <span style={{ fontWeight: "600" }}>{data.prod_qty}</span></p>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </>
-                                                    )
-                                                  })
-                                                }
-                                              </div>
-                                            </div>
-                                          </IonAccordion>
-                                        </IonAccordionGroup>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </>
-                            )
-                          })}
-                        </div>
-                      </div>
                     </IonAccordion>
                     <IonAccordion value="myDetails"className="my__BOX_RADIUS mb-3">
                       <IonItem slot="header" color="light">
@@ -436,6 +370,7 @@ const Account: React.FC = () => {
                           <span className="text-dark text ms-2" style={{ fontSize: '0.9rem', fontWeight: '600' }}>About Us</span>
                         </IonLabel>
                       </IonItem>
+
                     </IonAccordion>
                     <IonAccordion value="Terms-Condition" className="my__BOX_RADIUS mb-3" onClick={(e: any) => { pageOpenTab("http://agmoo.com/terms-of-use") }}>
                       <IonItem slot="header" color="light">
